@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Sahil Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--s1:#111;--s2:#1a1a1a;--s3:#222;
+  --bd:#2a2a2a;--a:#7c4dff;--a2:#ff4db8;
+  --t:#f0f0f0;--t2:#888;--t3:#444;
+  --green:#25d366;--red:#ff5566;--yellow:#ffcc44;
+  --fn:'Nunito',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fn);margin:0}
+#root{width:100vw;height:100vh;overflow:hidden}
+.loading{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);flex-direction:column;gap:16px}
+.spinner{width:44px;height:44px;border-radius:50%;border:3px solid var(--bd);border-top-color:var(--a);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--t2);font-size:14px;font-family:var(--fn)}
+
+/* ── AUTH ── */
+.auth-screen{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a0a,#1a0a2e);padding:16px;overflow-y:auto}
+.auth-box{width:100%;max-width:380px;background:var(--s1);border:1px solid #2a1a4e;border-radius:24px;padding:30px 22px;box-shadow:0 20px 60px rgba(124,77,255,.2)}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-logo .logo{font-size:48px;margin-bottom:8px}
+.auth-logo h1{font-size:26px;font-weight:900;background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.auth-logo p{font-size:12px;color:var(--t2);margin-top:4px}
+.google-btn{width:100%;padding:13px;border-radius:13px;border:1px solid #3a3a3a;background:var(--s2);color:var(--t);font-family:var(--fn);font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-bottom:14px}
+.google-btn:hover{border-color:var(--a);background:rgba(124,77,255,.08)}
+.divider{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.divider-line{flex:1;height:1px;background:var(--bd)}
+.divider-text{font-size:12px;color:var(--t3);font-weight:700}
+.tabs{display:flex;gap:4px;background:var(--s2);padding:4px;border-radius:12px;margin-bottom:16px}
+.tab{flex:1;padding:8px;border-radius:9px;border:none;background:transparent;color:var(--t2);font-family:var(--fn);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.tab.on{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:10px;font-weight:800;color:var(--t2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px}
+.field input{width:100%;padding:11px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
+.field input::placeholder{color:var(--t3)}
+.field-hint{font-size:10px;color:var(--t3);margin-top:4px}
+.err{font-size:12px;color:var(--red);background:rgba(255,85,102,.08);border:1px solid rgba(255,85,102,.2);border-radius:9px;padding:8px 12px;margin-bottom:12px}
+.auth-btn{width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font-family:var(--fn);font-size:15px;font-weight:900;cursor:pointer;transition:transform .15s;box-shadow:0 6px 20px rgba(124,77,255,.4);margin-top:4px}
+.auth-btn:hover{transform:translateY(-2px)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* ── APP SHELL ── */
+.app{width:100vw;height:100vh;display:flex;flex-direction:column;background:var(--bg)}
+.topbar{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0;z-index:20}
+.topbar h2{font-size:18px;font-weight:900;background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex:1}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px}
+.bottom-nav{height:54px;background:var(--s1);border-top:1px solid var(--bd);display:flex;flex-shrink:0}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--t3);cursor:pointer;font-family:var(--fn);font-size:9px;font-weight:700;transition:color .2s}
+.nav-btn.on{color:var(--a)}
+.nav-icon{font-size:22px;line-height:1}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden}
+.screen::-webkit-scrollbar{width:0}
+
+/* ── STORIES ── */
+.stories-wrap{display:flex;gap:10px;padding:12px 14px;overflow-x:auto;background:var(--s1);border-bottom:1px solid var(--bd);flex-shrink:0}
+.stories-wrap::-webkit-scrollbar{height:0}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}
+.story-ring{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));padding:2px;animation:none}
+.story-ring.unseen{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.story-ring.seen{background:var(--bd)}
+.story-av{width:100%;height:100%;border-radius:50%;background:var(--s2);border:2px solid var(--s1);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden}
+.story-av img{width:100%;height:100%;object-fit:cover}
+.story-name{font-size:10px;color:var(--t2);font-weight:700;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.add-story{background:linear-gradient(135deg,var(--a),var(--a2));border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;border:2px solid var(--s1)}
+
+/* ── POSTS ── */
+.post-card{background:var(--s1);border-bottom:1px solid var(--bd);margin-bottom:2px}
+.post-header{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.post-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;cursor:pointer}
+.post-av img{width:100%;height:100%;object-fit:cover}
+.post-user-info{flex:1;cursor:pointer}
+.post-username{font-size:13px;font-weight:900;color:var(--t)}
+.post-location{font-size:11px;color:var(--t2)}
+.post-more{background:none;border:none;color:var(--t2);font-size:20px;cursor:pointer;padding:4px}
+.post-media{width:100%;aspect-ratio:1;background:var(--s2);overflow:hidden;position:relative}
+.post-media img,.post-media video{width:100%;height:100%;object-fit:cover}
+.post-actions{display:flex;align-items:center;gap:4px;padding:8px 14px 4px}
+.action-btn{background:none;border:none;color:var(--t2);font-size:24px;cursor:pointer;padding:4px;transition:transform .15s;display:flex;align-items:center}
+.action-btn:hover{transform:scale(1.15)}
+.action-btn.liked{color:var(--red)}
+.save-btn{margin-left:auto}
+.post-likes{font-size:13px;font-weight:800;color:var(--t);padding:0 14px 4px}
+.post-caption{font-size:13px;color:var(--t);padding:0 14px 4px;line-height:1.5}
+.post-caption span{font-weight:900}
+.post-time{font-size:11px;color:var(--t3);padding:0 14px 10px}
+.view-comments{font-size:12px;color:var(--t2);padding:0 14px 8px;cursor:pointer}
+
+/* ── SEARCH / PEOPLE ── */
+.search-bar{padding:10px 14px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--bd)}
+.search-input{width:100%;padding:10px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:22px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none}
+.search-input::placeholder{color:var(--t3)}
+.people-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #151515;cursor:pointer}
+.people-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.people-av img{width:100%;height:100%;object-fit:cover}
+.people-info{flex:1}
+.people-username{font-size:14px;font-weight:900;color:var(--t)}
+.people-name{font-size:12px;color:var(--t2);margin-top:1px}
+.people-followers{font-size:11px;color:var(--t3);margin-top:1px}
+.mini-follow-btn{padding:6px 14px;border-radius:20px;border:none;font-family:var(--fn);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;flex-shrink:0}
+.mini-follow-btn.follow{background:var(--a);color:#fff}
+.mini-follow-btn.following{background:var(--s2);border:1px solid var(--bd);color:var(--t2)}
+
+/* ── PROFILE ── */
+.profile-header{padding:16px 14px}
+.profile-top{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.profile-pic{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;overflow:hidden;border:2px solid var(--bd)}
+.profile-pic img{width:100%;height:100%;object-fit:cover}
+.profile-stats{flex:1;display:flex;gap:0}
+.stat-item{flex:1;text-align:center}
+.stat-num{font-size:18px;font-weight:900;color:var(--t);display:block}
+.stat-lbl{font-size:11px;color:var(--t2)}
+.profile-name{font-size:15px;font-weight:900;color:var(--t);margin-bottom:2px}
+.profile-bio{font-size:13px;color:var(--t);line-height:1.5;margin-bottom:10px}
+.profile-username-tag{font-size:12px;color:var(--t2);margin-bottom:8px}
+.profile-btns{display:flex;gap:8px;margin-bottom:14px}
+.profile-btn{flex:1;padding:8px;border-radius:10px;border:1px solid var(--bd);background:var(--s2);color:var(--t);font-family:var(--fn);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.profile-btn.follow{background:var(--a);border-color:var(--a);color:#fff}
+.profile-btn.following{background:var(--s2)}
+.highlights-wrap{display:flex;gap:14px;padding:0 14px 14px;overflow-x:auto}
+.highlights-wrap::-webkit-scrollbar{height:0}
+.highlight-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}
+.highlight-ring{width:58px;height:58px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--s2);overflow:hidden}
+.highlight-ring img{width:100%;height:100%;object-fit:cover}
+.highlight-name{font-size:10px;color:var(--t2);font-weight:700;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-top:1px solid var(--bd)}
+.grid-post{aspect-ratio:1;background:var(--s2);overflow:hidden;cursor:pointer;position:relative}
+.grid-post img,.grid-post video{width:100%;height:100%;object-fit:cover}
+.grid-post-overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);display:none;align-items:center;justify-content:center;gap:10px;color:#fff;font-size:13px;font-weight:800}
+.grid-post:hover .grid-post-overlay{display:flex}
+
+/* ── MESSAGES ── */
+.chat-list{padding:0}
+.chat-item{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;border-bottom:1px solid #151515}
+.chat-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.chat-av img{width:100%;height:100%;object-fit:cover}
+.chat-info{flex:1;min-width:0}
+.chat-uname{font-size:14px;font-weight:900;color:var(--t)}
+.chat-prev{font-size:12px;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+.chat-room{width:100%;height:100%;display:flex;flex-direction:column}
+.room-hdr{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;padding:0 14px;flex-shrink:0}
+.back-btn{background:none;border:none;color:var(--a);font-size:22px;cursor:pointer;padding:2px;line-height:1}
+.room-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden;cursor:pointer}
+.room-av img{width:100%;height:100%;object-fit:cover}
+.room-info{flex:1;cursor:pointer}
+.room-uname{font-size:14px;font-weight:900;color:var(--t)}
+.room-status{font-size:11px;color:var(--green)}
+.messages{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.messages::-webkit-scrollbar{width:0}
+.msg-w{display:flex;flex-direction:column;max-width:75%}
+.msg-w.me{align-self:flex-end;align-items:flex-end}
+.msg-w.other{align-self:flex-start;align-items:flex-start}
+.msg-bbl{padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.5;word-break:break-word}
+.msg-w.me .msg-bbl{background:linear-gradient(135deg,var(--a),#5c2dff);color:#fff;border-bottom-right-radius:4px}
+.msg-w.other .msg-bbl{background:var(--s2);color:var(--t);border-bottom-left-radius:4px;border:1px solid var(--bd)}
+.msg-img{max-width:180px;border-radius:12px;cursor:pointer;display:block;margin-top:2px}
+.msg-time{font-size:10px;color:var(--t3);padding:2px 4px}
+.msg-input-area{display:flex;gap:8px;align-items:flex-end;padding:8px 12px 10px;background:var(--s1);border-top:1px solid var(--bd);flex-shrink:0}
+.attach-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg-input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:9px 15px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;resize:none;max-height:100px;line-height:1.4;transition:border-color .2s}
+.msg-input:focus{border-color:var(--a)}
+.msg-input::placeholder{color:var(--t3)}
+.send-btn{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(124,77,255,.4)}
+
+/* ── MODAL / OVERLAY ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal{width:100%;max-width:500px;background:var(--s1);border-radius:24px 24px 0 0;padding:22px;border-top:1px solid var(--bd);max-height:85vh;overflow-y:auto}
+.modal h3{font-size:17px;font-weight:900;color:var(--t);margin-bottom:16px}
+.modal-btns{display:flex;gap:8px;margin-top:12px}
+.modal-btn{flex:1;padding:12px;border-radius:12px;border:none;font-family:var(--fn);font-size:14px;font-weight:800;cursor:pointer}
+.modal-btn.cancel{background:var(--s2);color:var(--t2)}
+.modal-btn.confirm{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+
+/* ── STORY VIEWER ── */
+.story-viewer{position:fixed;inset:0;background:#000;z-index:500;display:flex;flex-direction:column}
+.story-bar{display:flex;gap:3px;padding:10px 12px 4px}
+.story-bar-item{flex:1;height:2px;border-radius:2px;background:rgba(255,255,255,.3)}
+.story-bar-item.done{background:#fff}
+.story-top{display:flex;align-items:center;gap:10px;padding:8px 12px}
+.story-top .s-av{width:36px;height:36px;border-radius:50%;overflow:hidden}
+.story-top .s-av img{width:100%;height:100%;object-fit:cover}
+.story-top .s-name{font-size:14px;font-weight:800;color:#fff}
+.story-top .s-time{font-size:11px;color:rgba(255,255,255,.6)}
+.story-close{margin-left:auto;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+.story-media{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.story-media img,.story-media video{max-width:100%;max-height:100%;object-fit:contain}
+
+/* ── LIGHTBOX ── */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lb img{max-width:95vw;max-height:95vh;border-radius:12px}
+
+/* ── UPLOAD AREA ── */
+.upload-area{border:2px dashed var(--bd);border-radius:16px;padding:30px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:14px}
+.upload-area:hover{border-color:var(--a)}
+.upload-area p{color:var(--t2);font-size:13px}
+.upload-area .icon{font-size:36px;margin-bottom:8px}
+.upload-preview{width:100%;border-radius:12px;max-height:200px;object-fit:cover;margin-bottom:14px}
+
+/* ── COMMENTS ── */
+.comments-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;flex-direction:column}
+.comments-hdr{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:10px}
+.comments-hdr h3{font-size:16px;font-weight:900;color:var(--t);flex:1;text-align:center}
+.comment-item{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid #151515}
+.comment-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;overflow:hidden}
+.comment-av img{width:100%;height:100%;object-fit:cover}
+.comment-body{flex:1}
+.comment-uname{font-size:13px;font-weight:900;color:var(--t)}
+.comment-text{font-size:13px;color:var(--t);margin-top:2px;line-height:1.4}
+.comment-time{font-size:11px;color:var(--t3);margin-top:3px}
+.comment-input-area{display:flex;gap:8px;align-items:center;padding:10px 14px;background:var(--s1);border-top:1px solid var(--bd);flex-shrink:0}
+.comment-input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:9px 15px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none}
+.comment-send{background:none;border:none;color:var(--a);font-size:14px;font-weight:900;cursor:pointer}
+
+/* ── EDIT PROFILE ── */
+.edit-field{margin-bottom:14px}
+.edit-field label{display:block;font-size:11px;font-weight:800;color:var(--t2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px}
+.edit-field input,.edit-field textarea{width:100%;padding:11px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;resize:none}
+.edit-field input:focus,.edit-field textarea:focus{border-color:var(--a)}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 24px;gap:12px;text-align:center}
+.e-icon{font-size:48px;opacity:.4}
+.e-text{font-size:14px;color:var(--t3);line-height:1.6}
+</style>
+</head>
+<body>
+<div id="root"><div class="loading"><div class="spinner"></div><p>Loading Sahil Social...</p></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, getDocs, updateDoc, arrayUnion, arrayRemove, where, deleteDoc, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ── CONFIG ─────────────────────────────────────────────────────────────
+const FB = {
+  apiKey:"AIzaSyCZ7mcpaXf750sV8S7Q59Ys-EQ_ZyNef1M",
+  authDomain:"sahil-chat1094.firebaseapp.com",
+  projectId:"sahil-chat1094",
+  storageBucket:"sahil-chat1094.firebasestorage.app",
+  messagingSenderId:"816695455704",
+  appId:"1:816695455704:web:795656a53e7c349538ccad"
+};
+const CLOUD_NAME   = "dlk2hvptj";
+const UPLOAD_PRESET = "Connectify";
+
+const app  = initializeApp(FB);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const gPro = new GoogleAuthProvider();
+
+// ── STATE ──────────────────────────────────────────────────────────────
+let cu=null, myData=null;
+let allUsers=[], posts=[], rooms=[];
+let activeTab="feed";
+let currentRoom=null, viewingUid=null;
+let lightboxSrc=null;
+let storyViewing=null;
+let showNewPost=false, showNewStory=false, showComments=null;
+let showEditProfile=false, showNewGroup=false;
+let pendingMsgPhoto=null;
+let searchQ="", authIsReg=false, authErr="";
+let msgUnsubs={}, roomUnsub=null, postUnsub=null;
+let selGroupUsers=new Set();
+
+const root = document.getElementById("root");
+
+// ── HELPERS ────────────────────────────────────────────────────────────
+const fmtTime = ts => { if(!ts) return ""; const d=ts.toDate?ts.toDate():new Date(); return d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); };
+const fmtDate = ts => { if(!ts) return ""; const d=ts.toDate?ts.toDate():new Date(); return d.toLocaleDateString("hi-IN"); };
+const getUser = uid => allUsers.find(u=>u.id===uid)||{};
+const isFollowing = uid => myData?.following?.includes(uid)||false;
+
+const avEl = (u, cls="") => {
+  if(!u) return `<div class="people-av ${cls}">👤</div>`;
+  if(u.photoURL) return `<div class="${cls||"people-av"}" style="border-radius:50%;overflow:hidden;width:46px;height:46px;flex-shrink:0"><img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover"/></div>`;
+  return `<div class="${cls||"people-av"}">${u.emoji||"👤"}</div>`;
+};
+
+// Cloudinary Upload
+const uploadMedia = async file => {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+  fd.append("cloud_name", CLOUD_NAME);
+  const isVideo = file.type.startsWith("video/");
+  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo?"video":"image"}/upload`;
+  const res = await fetch(url, { method:"POST", body:fd });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return { url: data.secure_url, type: isVideo?"video":"image", publicId: data.public_id };
+};
+
+// ── AUTH ───────────────────────────────────────────────────────────────
+function renderAuth() {
+  root.innerHTML = `
+  <div class="auth-screen">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <div class="logo">✨</div>
+        <h1>Sahil Social</h1>
+        <p>Apni duniya • Share karo • Connect karo</p>
+      </div>
+      <button class="google-btn" id="gBtn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Google se Login
+      </button>
+      <div class="divider"><div class="divider-line"></div><span class="divider-text">YA</span><div class="divider-line"></div></div>
+      <div class="tabs">
+        <button class="tab ${!authIsReg?"on":""}" onclick="setAuthTab(false)">🔑 Login</button>
+        <button class="tab ${authIsReg?"on":""}" onclick="setAuthTab(true)">🆕 Register</button>
+      </div>
+      ${authErr?`<div class="err">${authErr}</div>`:""}
+      ${authIsReg?`
+        <div class="field"><label>Poora Naam</label><input type="text" id="nameI" placeholder="Sahil Yadav"/></div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="unameI" placeholder="sahil_yadav" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"/>
+          <div class="field-hint">Sirf small letters, numbers, _ aur . use karo</div>
+        </div>
+      `:""}
+      <div class="field"><label>Email</label><input type="email" id="emailI" placeholder="email@example.com"/></div>
+      <div class="field"><label>Password</label><input type="password" id="passI" placeholder="password (6+ chars)..." onkeydown="if(event.key==='Enter')emailAuth()"/></div>
+      <button class="auth-btn" id="authBtn" onclick="emailAuth()">${authIsReg?"🚀 Account Banao":"👋 Login Karo"}</button>
+    </div>
+  </div>`;
+}
+
+window.setAuthTab = r => { authIsReg=r; authErr=""; render(); };
+
+window.googleLogin = async () => {
+  const btn=document.getElementById("gBtn");
+  if(btn){ btn.disabled=true; btn.textContent="⏳ Ruko..."; }
+  try {
+    const res = await signInWithPopup(auth, gPro);
+    const user = res.user;
+    const ref  = doc(db,"users",user.uid);
+    const snap = await getDoc(ref);
+    if(!snap.exists()){
+      const emojis=["😎","🤩","🔥","💪","⚡","🌟","🎯","🚀","💎","🦁"];
+      const baseUname = (user.displayName||"user").toLowerCase().replace(/[^a-z0-9]/g,"_").slice(0,15);
+      const uname = baseUname+"_"+Math.floor(Math.random()*9999);
+      await setDoc(ref,{
+        name:user.displayName||"User", username:uname,
+        email:user.email, photoURL:user.photoURL||null,
+        emoji:emojis[Math.floor(Math.random()*emojis.length)],
+        bio:"", uid:user.uid, following:[], followers:[],
+        createdAt:serverTimestamp(), online:true
+      });
+    } else {
+      await updateDoc(ref,{online:true, photoURL:user.photoURL||null});
+    }
+  } catch(e){
+    authErr="❌ Google login failed. "+e.message;
+    render();
+  }
+};
+
+window.emailAuth = async () => {
+  const btn=document.getElementById("authBtn");
+  const email=document.getElementById("emailI")?.value.trim();
+  const pass=document.getElementById("passI")?.value;
+  const name=document.getElementById("nameI")?.value.trim();
+  const uname=document.getElementById("unameI")?.value.trim();
+  if(!email||!pass){authErr="❌ Email aur password chahiye!";render();return;}
+  if(authIsReg){
+    if(!name){authErr="❌ Apna naam daalo!";render();return;}
+    if(!uname||uname.length<3){authErr="❌ Username 3+ characters ka hona chahiye!";render();return;}
+  }
+  if(btn){btn.disabled=true;btn.textContent="⏳ Ruko...";}
+  try {
+    const emojis=["😎","🤩","🔥","💪","⚡","🌟","🎯","🚀","💎","🦁","🐯","🦊"];
+    if(authIsReg){
+      // Check username unique
+      const usnap=await getDocs(query(collection(db,"users"),where("username","==",uname)));
+      if(!usnap.empty){authErr="❌ Yeh username already le chuka hai koi! Doosra try karo.";render();return;}
+      const cred=await createUserWithEmailAndPassword(auth,email,pass);
+      await updateProfile(cred.user,{displayName:name});
+      await setDoc(doc(db,"users",cred.user.uid),{
+        name, username:uname, email, uid:cred.user.uid,
+        photoURL:null, emoji:emojis[Math.floor(Math.random()*emojis.length)],
+        bio:"", following:[], followers:[],
+        createdAt:serverTimestamp(), online:true
+      });
+    } else {
+      await signInWithEmailAndPassword(auth,email,pass);
+    }
+  } catch(e){
+    authErr = e.code==="auth/user-not-found"?"❌ User nahi mila! Pehle register karo."
+            : e.code==="auth/wrong-password"?"❌ Password galat hai!"
+            : e.code==="auth/email-already-in-use"?"❌ Email already use ho rahi hai!"
+            : e.code==="auth/weak-password"?"❌ Password 6+ chars ka hona chahiye!"
+            : "❌ "+e.message;
+    render();
+  }
+};
+
+// ── MAIN RENDER ────────────────────────────────────────────────────────
+function render() {
+  if(!cu){renderAuth();return;}
+
+  // Overlays
+  if(lightboxSrc){root.innerHTML=`<div class="lb" onclick="closeLB()"><img src="${lightboxSrc}"/></div>`;return;}
+  if(storyViewing){renderStoryViewer();return;}
+  if(showComments){renderComments();return;}
+
+  if(currentRoom){renderChatRoom();return;}
+  if(viewingUid&&viewingUid!==cu.uid){renderUserProfile(viewingUid);return;}
+
+  renderMain();
+}
+
+function renderMain(){
+  let topbar="", content="";
+
+  if(activeTab==="feed"){
+    topbar=`<div class="topbar"><h2>✨ Sahil Social</h2><button class="icon-btn" onclick="showPost()">➕</button><button class="icon-btn" onclick="setTab('messages')">💬</button></div>`;
+    content=renderFeed();
+  } else if(activeTab==="search"){
+    topbar=`<div class="topbar"><h2>🔍 Search</h2></div>`;
+    content=renderSearch();
+  } else if(activeTab==="messages"){
+    topbar=`<div class="topbar"><h2>💬 Messages</h2><button class="icon-btn" onclick="openGroupModal()">➕</button></div>`;
+    content=renderMessagesList();
+  } else if(activeTab==="profile"){
+    topbar=`<div class="topbar"><h2>@${myData?.username||"profile"}</h2><button class="icon-btn" onclick="showEditProf()">⚙️</button><button class="icon-btn" onclick="doLogout()">🚪</button></div>`;
+    content=renderMyProfile();
+  }
+
+  root.innerHTML=`
+    <div class="app">
+      ${topbar}
+      <div class="screen" id="mainScreen">${content}</div>
+      <div class="bottom-nav">
+        <button class="nav-btn ${activeTab==="feed"?"on":""}" onclick="setTab('feed')"><span class="nav-icon">🏠</span>Home</button>
+        <button class="nav-btn ${activeTab==="search"?"on":""}" onclick="setTab('search')"><span class="nav-icon">🔍</span>Search</button>
+        <button class="nav-btn" onclick="showPost()"><span class="nav-icon">➕</span>Post</button>
+        <button class="nav-btn ${activeTab==="messages"?"on":""}" onclick="setTab('messages')"><span class="nav-icon">💬</span>Chat</button>
+        <button class="nav-btn ${activeTab==="profile"?"on":""}" onclick="setTab('profile')"><span class="nav-icon">${myData?.photoURL?`<img src="${myData.photoURL}" style="width:24px;height:24px;border-radius:50%;object-fit:cover">`:myData?.emoji||"👤"}</span>Profile</button>
+      </div>
+    </div>
+    ${showNewPost?renderNewPostModal():""}
+    ${showNewStory?renderNewStoryModal():""}
+    ${showEditProfile?renderEditProfileModal():""}
+    ${showNewGroup?renderGroupModal():""}`;
+}
+
+// ── FEED ───────────────────────────────────────────────────────────────
+function renderFeed(){
+  const myStories=[];
+  const otherStories=allUsers.filter(u=>u.id!==cu.uid);
+  let html=``;
+
+  // Stories Row
+  html+=`<div class="stories-wrap">
+    <div class="story-item" onclick="showStory()">
+      <div class="story-ring"><div class="story-av"><div class="add-story">+</div></div></div>
+      <div class="story-name">Tumhari Story</div>
+    </div>
+    ${otherStories.slice(0,10).map(u=>`
+      <div class="story-item" onclick="viewStory('${u.id}')">
+        <div class="story-ring unseen">
+          <div class="story-av">${u.photoURL?`<img src="${u.photoURL}"/>`:`<span style="font-size:22px">${u.emoji||"👤"}</span>`}</div>
+        </div>
+        <div class="story-name">${u.username||u.name}</div>
+      </div>
+    `).join("")}
+  </div>`;
+
+  // Posts
+  const feedPosts = posts.filter(p=>p.uid===cu.uid||(myData?.following||[]).includes(p.uid));
+  if(!feedPosts.length){
+    html+=`<div class="empty-state"><div class="e-icon">📸</div><div class="e-text">Koi post nahi abhi!<br/>Log karo ya kuch post karo.</div></div>`;
+    return html;
+  }
+
+  feedPosts.forEach(p=>{
+    const user=getUser(p.uid);
+    const liked=(p.likes||[]).includes(cu.uid);
+    html+=`
+      <div class="post-card" id="post_${p.id}">
+        <div class="post-header">
+          <div class="post-av" onclick="viewProfile('${p.uid}')">${user.photoURL?`<img src="${user.photoURL}"/>`:user.emoji||"👤"}</div>
+          <div class="post-user-info" onclick="viewProfile('${p.uid}')">
+            <div class="post-username">@${user.username||user.name}</div>
+            ${p.location?`<div class="post-location">📍 ${p.location}</div>`:""}
+          </div>
+          <button class="post-more">•••</button>
+        </div>
+        <div class="post-media" onclick="openLB('${p.mediaUrl}')">
+          ${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted playsinline loop autoplay></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}
+        </div>
+        <div class="post-actions">
+          <button class="action-btn ${liked?"liked":""}" onclick="toggleLike('${p.id}')">
+            ${liked?"❤️":"🤍"}
+          </button>
+          <button class="action-btn" onclick="openComments('${p.id}')">💬</button>
+          <button class="action-btn">📤</button>
+          <button class="action-btn save-btn">🔖</button>
+        </div>
+        <div class="post-likes">${(p.likes||[]).length} likes</div>
+        ${p.caption?`<div class="post-caption"><span>@${user.username||user.name}</span> ${p.caption}</div>`:""}
+        <div class="view-comments" onclick="openComments('${p.id}')">Sab comments dekho</div>
+        <div class="post-time">${fmtDate(p.createdAt)}</div>
+      </div>`;
+  });
+  return html;
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────
+function renderSearch(){
+  const filtered=allUsers.filter(u=>u.id!==cu.uid&&(!searchQ||(u.username||"").includes(searchQ.toLowerCase())||(u.name||"").toLowerCase().includes(searchQ.toLowerCase())));
+  let html=`<div class="search-bar"><input class="search-input" placeholder="🔍 Username se search karo..." value="${searchQ}" oninput="updateSearch(this.value)"/></div>`;
+  if(!filtered.length)html+=`<div class="empty-state"><div class="e-icon">👥</div><div class="e-text">Koi nahi mila!</div></div>`;
+  filtered.forEach(u=>{
+    const f=isFollowing(u.id);
+    html+=`<div class="people-item" onclick="viewProfile('${u.id}')">
+      <div class="people-av">${u.photoURL?`<img src="${u.photoURL}"/>`:u.emoji||"👤"}</div>
+      <div class="people-info">
+        <div class="people-username">@${u.username||u.name}</div>
+        <div class="people-name">${u.name}</div>
+        <div class="people-followers">${(u.followers||[]).length} followers</div>
+      </div>
+      <button class="mini-follow-btn ${f?"following":"follow"}" onclick="event.stopPropagation();toggleFollow('${u.id}')">${f?"✓ Following":"+ Follow"}</button>
+    </div>`;
+  });
+  return html;
+}
+window.updateSearch = q=>{ searchQ=q; if(document.getElementById("mainScreen"))document.getElementById("mainScreen").innerHTML=renderSearch(); };
+
+// ── MESSAGES LIST ──────────────────────────────────────────────────────
+function renderMessagesList(){
+  if(!rooms.length)return`<div class="empty-state"><div class="e-icon">💬</div><div class="e-text">Koi message nahi!<br/>Search mein jao aur kisi ko message karo.</div></div>`;
+  let html="";
+  rooms.forEach(r=>{
+    const oid=r.type==="dm"?r.members?.find(m=>m!==cu.uid):null;
+    const other=oid?getUser(oid):{};
+    const name=r.type==="group"?r.name:other.name||"User";
+    const uname=r.type==="group"?r.name:"@"+(other.username||other.name||"user");
+    html+=`<div class="chat-item" onclick="openRoom('${r.id}')">
+      <div class="chat-av">${r.type==="group"?"👥":other.photoURL?`<img src="${other.photoURL}"/>`:other.emoji||"👤"}</div>
+      <div class="chat-info"><div class="chat-uname">${uname}</div><div class="chat-prev">${name}</div></div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── MY PROFILE ─────────────────────────────────────────────────────────
+function renderMyProfile(){
+  const myPosts=posts.filter(p=>p.uid===cu.uid);
+  return `
+    <div class="profile-header">
+      <div class="profile-top">
+        <div class="profile-pic">${myData?.photoURL?`<img src="${myData.photoURL}"/>`:myData?.emoji||"👤"}</div>
+        <div class="profile-stats">
+          <div class="stat-item"><span class="stat-num">${myPosts.length}</span><span class="stat-lbl">Posts</span></div>
+          <div class="stat-item"><span class="stat-num">${(myData?.followers||[]).length}</span><span class="stat-lbl">Followers</span></div>
+          <div class="stat-item"><span class="stat-num">${(myData?.following||[]).length}</span><span class="stat-lbl">Following</span></div>
+        </div>
+      </div>
+      <div class="profile-name">${myData?.name||"User"}</div>
+      <div class="profile-username-tag">@${myData?.username||"username"}</div>
+      ${myData?.bio?`<div class="profile-bio">${myData.bio}</div>`:""}
+      <div class="profile-btns">
+        <button class="profile-btn" onclick="showEditProf()">✏️ Profile Edit Karo</button>
+        <button class="profile-btn" onclick="showPost()">➕ Post Karo</button>
+      </div>
+    </div>
+    ${myData?.highlights?.length?`<div class="highlights-wrap">${myData.highlights.map(h=>`<div class="highlight-item"><div class="highlight-ring">${h.img?`<img src="${h.img}"/>`:h.icon||"⭐"}</div><div class="highlight-name">${h.name}</div></div>`).join("")}</div>`:""}
+    <div class="posts-grid">
+      ${myPosts.length?myPosts.map(p=>`
+        <div class="grid-post" onclick="openLB('${p.mediaUrl}')">
+          ${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}
+          <div class="grid-post-overlay">❤️ ${(p.likes||[]).length} 💬</div>
+        </div>
+      `).join(""):`<div style="grid-column:span 3;padding:40px;text-align:center;color:var(--t3)">Koi post nahi abhi</div>`}
+    </div>`;
+}
+
+// ── USER PROFILE ───────────────────────────────────────────────────────
+function renderUserProfile(uid){
+  const u=getUser(uid);
+  const f=isFollowing(uid);
+  const uPosts=posts.filter(p=>p.uid===uid);
+  root.innerHTML=`
+    <div class="app">
+      <div class="topbar">
+        <button class="icon-btn" style="color:var(--a);font-size:20px" onclick="closeProfile()">←</button>
+        <h2>@${u.username||u.name}</h2>
+      </div>
+      <div class="screen">
+        <div class="profile-header">
+          <div class="profile-top">
+            <div class="profile-pic">${u.photoURL?`<img src="${u.photoURL}"/>`:u.emoji||"👤"}</div>
+            <div class="profile-stats">
+              <div class="stat-item"><span class="stat-num">${uPosts.length}</span><span class="stat-lbl">Posts</span></div>
+              <div class="stat-item"><span class="stat-num">${(u.followers||[]).length}</span><span class="stat-lbl">Followers</span></div>
+              <div class="stat-item"><span class="stat-num">${(u.following||[]).length}</span><span class="stat-lbl">Following</span></div>
+            </div>
+          </div>
+          <div class="profile-name">${u.name}</div>
+          <div class="profile-username-tag">@${u.username||u.name}</div>
+          ${u.bio?`<div class="profile-bio">${u.bio}</div>`:""}
+          <div class="profile-btns">
+            <button class="profile-btn ${f?"following":"follow"}" onclick="toggleFollow('${uid}')">${f?"✓ Following":"+ Follow"}</button>
+            <button class="profile-btn" onclick="startDM('${uid}')">💬 Message</button>
+          </div>
+        </div>
+        <div class="posts-grid">
+          ${uPosts.map(p=>`<div class="grid-post" onclick="openLB('${p.mediaUrl}')">${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}</div>`).join("")||`<div style="grid-column:span 3;padding:40px;text-align:center;color:var(--t3)">Koi post nahi</div>`}
+        </div>
+      </div>
+    </div>`;
+}
+window.viewProfile = uid=>{ if(uid===cu.uid){setTab("profile");return;} viewingUid=uid; render(); };
+window.closeProfile = ()=>{ viewingUid=null; render(); };
+
+// ── FOLLOW ─────────────────────────────────────────────────────────────
+window.toggleFollow = async uid=>{
+  const f=isFollowing(uid);
+  if(f){
+    await updateDoc(doc(db,"users",cu.uid),{following:arrayRemove(uid)});
+    await updateDoc(doc(db,"users",uid),{followers:arrayRemove(cu.uid)});
+    myData.following=(myData.following||[]).filter(x=>x!==uid);
+  }else{
+    await updateDoc(doc(db,"users",cu.uid),{following:arrayUnion(uid)});
+    await updateDoc(doc(db,"users",uid),{followers:arrayUnion(cu.uid)});
+    if(!myData.following)myData.following=[];
+    myData.following.push(uid);
+  }
+  const snap=await getDocs(collection(db,"users"));
+  allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+  myData=allUsers.find(u=>u.id===cu.uid);
+  if(viewingUid)renderUserProfile(viewingUid);else render();
+};
+
+// ── LIKE ───────────────────────────────────────────────────────────────
+window.toggleLike = async postId=>{
+  const p=posts.find(x=>x.id===postId);
+  if(!p)return;
+  const liked=(p.likes||[]).includes(cu.uid);
+  if(liked)await updateDoc(doc(db,"posts",postId),{likes:arrayRemove(cu.uid)});
+  else await updateDoc(doc(db,"posts",postId),{likes:arrayUnion(cu.uid)});
+};
+
+// ── COMMENTS ───────────────────────────────────────────────────────────
+window.openComments = postId=>{ showComments=postId; render(); };
+function renderComments(){
+  const p=posts.find(x=>x.id===showComments);
+  root.innerHTML=`
+    <div class="comments-screen">
+      <div class="comments-hdr">
+        <button class="icon-btn" style="color:var(--a);font-size:20px" onclick="closeComments()">←</button>
+        <h3>Comments</h3>
+        <div style="width:34px"></div>
+      </div>
+      <div class="screen" id="commentsList">
+        ${(p?.comments||[]).length?p.comments.map(c=>{
+          const u=getUser(c.uid);
+          return `<div class="comment-item">
+            <div class="comment-av">${u.photoURL?`<img src="${u.photoURL}"/>`:u.emoji||"👤"}</div>
+            <div class="comment-body">
+              <div class="comment-uname">@${u.username||u.name}</div>
+              <div class="comment-text">${c.text}</div>
+              <div class="comment-time">${fmtDate(c.ts)}</div>
+            </div>
+          </div>`;
+        }).join(""):`<div class="empty-state"><div class="e-icon">💬</div><div class="e-text">Pehle comment karo!</div></div>`}
+      </div>
+      <div class="comment-input-area">
+        <input class="comment-input" id="commentInput" placeholder="Comment likho..."/>
+        <button class="comment-send" onclick="addComment('${showComments}')">Post</button>
+      </div>
+    </div>`;
+}
+window.closeComments=()=>{showComments=null;render();};
+window.addComment=async postId=>{
+  const input=document.getElementById("commentInput");
+  const text=input?.value.trim();
+  if(!text)return;
+  input.value="";
+  const comment={uid:cu.uid,text,ts:new Date().toISOString()};
+  await updateDoc(doc(db,"posts",postId),{comments:arrayUnion(comment)});
+  const snap=await getDoc(doc(db,"posts",postId));
+  const idx=posts.findIndex(p=>p.id===postId);
+  if(idx>=0)posts[idx]={...posts[idx],...snap.data()};
+  renderComments();
+};
+
+// ── NEW POST ───────────────────────────────────────────────────────────
+window.showPost=()=>{showNewPost=true;render();};
+function renderNewPostModal(){
+  return `<div class="modal-overlay" onclick="closePostModal(event)">
+    <div class="modal">
+      <h3>➕ Naya Post</h3>
+      <div class="upload-area" onclick="document.getElementById('postFile').click()">
+        <div class="icon">📸</div>
+        <p>Photo ya Video select karo</p>
+        <p style="font-size:11px;color:var(--t3);margin-top:4px">Unlimited size • Free Cloudinary storage!</p>
+      </div>
+      <input type="file" id="postFile" accept="image/*,video/*" style="display:none" onchange="previewPost(event)"/>
+      <div id="postPreviewWrap"></div>
+      <div class="edit-field"><label>Caption</label><textarea id="postCaption" rows="3" placeholder="Kuch likho..."></textarea></div>
+      <div class="edit-field"><label>Location (optional)</label><input type="text" id="postLocation" placeholder="Mumbai, India"/></div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closePostModal()">Cancel</button>
+        <button class="modal-btn confirm" id="postSubmitBtn" onclick="submitPost()">🚀 Post Karo</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closePostModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewPost=false;render();}};
+window.previewPost=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const url=URL.createObjectURL(file);
+  const wrap=document.getElementById("postPreviewWrap");
+  if(wrap)wrap.innerHTML=file.type.startsWith("video/")?`<video src="${url}" controls class="upload-preview"></video>`:`<img src="${url}" class="upload-preview"/>`;
+};
+window.submitPost=async()=>{
+  const file=document.getElementById("postFile")?.files[0];
+  const caption=document.getElementById("postCaption")?.value.trim();
+  const location=document.getElementById("postLocation")?.value.trim();
+  const btn=document.getElementById("postSubmitBtn");
+  if(!file){alert("Pehle photo ya video select karo!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Upload ho raha hai...";}
+  try{
+    const media=await uploadMedia(file);
+    await addDoc(collection(db,"posts"),{
+      uid:cu.uid, mediaUrl:media.url, mediaType:media.type,
+      caption, location, likes:[], comments:[],
+      createdAt:serverTimestamp()
+    });
+    showNewPost=false;
+    alert("Post ho gaya! 🎉");
+    render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="🚀 Post Karo";}}
+};
+
+// ── STORY ──────────────────────────────────────────────────────────────
+window.showStory=()=>{showNewStory=true;render();};
+function renderNewStoryModal(){
+  return `<div class="modal-overlay" onclick="closeStoryModal(event)">
+    <div class="modal">
+      <h3>📸 Naya Story</h3>
+      <div class="upload-area" onclick="document.getElementById('storyFile').click()">
+        <div class="icon">✨</div><p>Story ke liye photo ya video select karo</p>
+      </div>
+      <input type="file" id="storyFile" accept="image/*,video/*" style="display:none" onchange="previewStory(event)"/>
+      <div id="storyPreviewWrap"></div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeStoryModal()">Cancel</button>
+        <button class="modal-btn confirm" id="storySubmitBtn" onclick="submitStory()">✨ Story Lagao</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeStoryModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewStory=false;render();}};
+window.previewStory=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const url=URL.createObjectURL(file);
+  const wrap=document.getElementById("storyPreviewWrap");
+  if(wrap)wrap.innerHTML=`<img src="${url}" class="upload-preview"/>`;
+};
+window.submitStory=async()=>{
+  const file=document.getElementById("storyFile")?.files[0];
+  const btn=document.getElementById("storySubmitBtn");
+  if(!file){alert("File select karo!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Upload ho raha hai...";}
+  try{
+    const media=await uploadMedia(file);
+    await addDoc(collection(db,"stories"),{
+      uid:cu.uid, mediaUrl:media.url, mediaType:media.type,
+      createdAt:serverTimestamp()
+    });
+    showNewStory=false;alert("Story lag gayi! ✨");render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="✨ Story Lagao";}}
+};
+window.viewStory=uid=>{storyViewing=uid;render();};
+function renderStoryViewer(){
+  const u=getUser(storyViewing);
+  root.innerHTML=`
+    <div class="story-viewer">
+      <div class="story-bar"><div class="story-bar-item done"></div></div>
+      <div class="story-top">
+        <div class="s-av"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--a);display:flex;align-items:center;justify-content:center">${u.photoURL?`<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover"/>`:u.emoji||"👤"}</div></div>
+        <div>
+          <div class="s-name">@${u.username||u.name}</div>
+          <div class="s-time">Aaj</div>
+        </div>
+        <button class="story-close" onclick="closeStory()">✕</button>
+      </div>
+      <div class="story-media" style="background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center">
+        <div style="font-size:80px">${u.emoji||"👤"}</div>
+      </div>
+    </div>`;
+}
+window.closeStory=()=>{storyViewing=null;render();};
+
+// ── EDIT PROFILE ───────────────────────────────────────────────────────
+window.showEditProf=()=>{showEditProfile=true;render();};
+function renderEditProfileModal(){
+  return `<div class="modal-overlay" onclick="closeEditModal(event)">
+    <div class="modal">
+      <h3>✏️ Profile Edit Karo</h3>
+      <div class="edit-field"><label>Naam</label><input type="text" id="editName" value="${myData?.name||""}"/></div>
+      <div class="edit-field"><label>Username</label><input type="text" id="editUname" value="${myData?.username||""}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"/></div>
+      <div class="edit-field"><label>Bio</label><textarea id="editBio" rows="3" placeholder="Apne baare mein kuch likho...">${myData?.bio||""}</textarea></div>
+      <div class="edit-field"><label>Profile Photo</label>
+        <div class="upload-area" onclick="document.getElementById('editPhoto').click()"><div class="icon">📷</div><p>Nayi photo select karo</p></div>
+        <input type="file" id="editPhoto" accept="image/*" style="display:none" onchange="previewEditPhoto(event)"/>
+        <div id="editPhotoPreview"></div>
+      </div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeEditModal()">Cancel</button>
+        <button class="modal-btn confirm" id="saveProfileBtn" onclick="saveProfile()">💾 Save Karo</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeEditModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showEditProfile=false;render();}};
+window.previewEditPhoto=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const url=URL.createObjectURL(file);
+  const prev=document.getElementById("editPhotoPreview");
+  if(prev)prev.innerHTML=`<img src="${url}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--a);margin-top:8px"/>`;
+};
+window.saveProfile=async()=>{
+  const name=document.getElementById("editName")?.value.trim();
+  const uname=document.getElementById("editUname")?.value.trim();
+  const bio=document.getElementById("editBio")?.value.trim();
+  const photoFile=document.getElementById("editPhoto")?.files[0];
+  const btn=document.getElementById("saveProfileBtn");
+  if(!name||!uname){alert("Naam aur username chahiye!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Save ho raha hai...";}
+  try{
+    const updates={name,username:uname,bio};
+    if(photoFile){
+      const media=await uploadMedia(photoFile);
+      updates.photoURL=media.url;
+      await updateProfile(cu,{displayName:name,photoURL:media.url});
+    }
+    await updateDoc(doc(db,"users",cu.uid),updates);
+    const snap=await getDocs(collection(db,"users"));
+    allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+    myData=allUsers.find(u=>u.id===cu.uid);
+    showEditProfile=false;render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="💾 Save Karo";}}
+};
+
+// ── CHAT ROOM ──────────────────────────────────────────────────────────
+window.openRoom=roomId=>{
+  currentRoom=rooms.find(r=>r.id===roomId)||{id:roomId,members:[cu.uid],type:"dm"};
+  render();
+};
+function renderChatRoom(){
+  const r=currentRoom;
+  const oid=r.type==="dm"?r.members?.find(m=>m!==cu.uid):null;
+  const other=oid?getUser(oid):{};
+  const rName=r.type==="group"?r.name:"@"+(other.username||other.name||"user");
+  root.innerHTML=`
+    <div class="app">
+      <div class="room-hdr">
+        <button class="back-btn" onclick="goBack()">←</button>
+        <div class="room-av" onclick="${oid?`viewProfile('${oid}')`:""}">${other.photoURL?`<img src="${other.photoURL}"/>`:r.type==="group"?"👥":other.emoji||"👤"}</div>
+        <div class="room-info" onclick="${oid?`viewProfile('${oid}')`:""}" >
+          <div class="room-uname">${rName}</div>
+          <div class="room-status">🟢 Online</div>
+        </div>
+      </div>
+      <div class="messages" id="msgList"><div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Chat shuru karo! 👋</div></div>
+      <div id="msgPhotoPrev"></div>
+      <div class="msg-input-area">
+        <input type="file" id="msgPhotoFile" accept="image/*" style="display:none" onchange="handleMsgPhoto(event)"/>
+        <button class="attach-btn" onclick="document.getElementById('msgPhotoFile').click()">📎</button>
+        <textarea class="msg-input" id="msgInput" placeholder="Message likho..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMsg()">🚀</button>
+      </div>
+    </div>`;
+  listenMsgs(r.id);
+}
+function listenMsgs(roomId){
+  if(msgUnsubs[roomId])msgUnsubs[roomId]();
+  const q=query(collection(db,"rooms",roomId,"messages"),orderBy("createdAt"));
+  msgUnsubs[roomId]=onSnapshot(q,snap=>{
+    const list=document.getElementById("msgList");if(!list)return;
+    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    const r=currentRoom;
+    if(!msgs.length){list.innerHTML=`<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Chat shuru karo! 👋</div>`;return;}
+    list.innerHTML=msgs.map(m=>{
+      const isMe=m.uid===cu.uid;
+      const sender=getUser(m.uid);
+      return `<div class="msg-w ${isMe?"me":"other"}">
+        ${!isMe&&r.type==="group"?`<div style="font-size:11px;color:var(--a);font-weight:700;margin-bottom:3px;padding:0 4px">@${sender.username||sender.name||"user"}</div>`:""}
+        ${m.img?`<img src="${m.img}" class="msg-img" onclick="openLB('${encodeURIComponent(m.img)}')"/>`:""}
+        ${m.text?`<div class="msg-bbl">${m.text}</div>`:""}
+        <div class="msg-time">${fmtTime(m.createdAt)}</div>
+      </div>`;
+    }).join("");
+    list.scrollTop=list.scrollHeight;
+  });
+}
+window.handleMsgPhoto=async e=>{
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>5*1024*1024){alert("Photo 5MB se choti honi chahiye messages mein!");return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    pendingMsgPhoto=reader.result;
+    const area=document.getElementById("msgPhotoPrev");
+    if(area)area.innerHTML=`<div style="padding:6px 12px 0;background:var(--s1)"><div style="position:relative;display:inline-block"><img src="${pendingMsgPhoto}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;border:2px solid var(--a)"/><button onclick="removeMsgPhoto()" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:11px;cursor:pointer">×</button></div></div>`;
+  };
+  reader.readAsDataURL(file);
+  e.target.value="";
+};
+window.removeMsgPhoto=()=>{pendingMsgPhoto=null;const a=document.getElementById("msgPhotoPrev");if(a)a.innerHTML="";};
+window.sendMsg=async()=>{
+  const input=document.getElementById("msgInput");
+  const text=input?.value.trim();
+  if(!text&&!pendingMsgPhoto)return;
+  input.value="";input.style.height="auto";
+  const msgData={uid:cu.uid,name:myData?.name||cu.displayName,createdAt:serverTimestamp()};
+  if(text)msgData.text=text;
+  if(pendingMsgPhoto){msgData.img=pendingMsgPhoto;pendingMsgPhoto=null;removeMsgPhoto();}
+  await addDoc(collection(db,"rooms",currentRoom.id,"messages"),msgData);
+};
+window.handleKey=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMsg();}};
+window.autoResize=el=>{el.style.height="auto";el.style.height=Math.min(el.scrollHeight,100)+"px";};
+window.goBack=()=>{currentRoom=null;pendingMsgPhoto=null;render();};
+window.startDM=async uid=>{
+  viewingUid=null;
+  let room=rooms.find(r=>r.type==="dm"&&r.members?.includes(uid)&&r.members?.includes(cu.uid));
+  if(!room){
+    const ref=await addDoc(collection(db,"rooms"),{type:"dm",members:[cu.uid,uid],createdAt:serverTimestamp()});
+    room={id:ref.id,type:"dm",members:[cu.uid,uid]};rooms.push(room);
+  }
+  openRoom(room.id);
+};
+
+// ── GROUP ──────────────────────────────────────────────────────────────
+window.openGroupModal=()=>{showNewGroup=true;selGroupUsers.clear();render();};
+function renderGroupModal(){
+  const users=allUsers.filter(u=>u.id!==cu.uid);
+  return `<div class="modal-overlay" onclick="closeGroupModal(event)">
+    <div class="modal">
+      <h3>👥 Naya Group</h3>
+      <div class="edit-field"><label>Group Naam</label><input type="text" id="gName" placeholder="Group ka naam..."/></div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:8px;font-weight:700">Members:</div>
+      <div style="max-height:200px;overflow-y:auto;margin-bottom:16px">
+        ${users.map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:9px;border-radius:10px;cursor:pointer" onclick="toggleGroupUser('${u.id}',this)">
+          <input type="checkbox" id="gu_${u.id}" onchange="toggleGroupSel('${u.id}')"/>
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--a);display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden">${u.photoURL?`<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover"/>`:u.emoji||"👤"}</div>
+          <span style="color:var(--t);font-weight:700">@${u.username||u.name}</span>
+        </div>`).join("")}
+      </div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeGroupModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="createGroup()">✅ Banao</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeGroupModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewGroup=false;selGroupUsers.clear();render();}};
+window.toggleGroupSel=uid=>{selGroupUsers.has(uid)?selGroupUsers.delete(uid):selGroupUsers.add(uid);};
+window.createGroup=async()=>{
+  const name=document.getElementById("gName")?.value.trim();
+  if(!name){alert("Group naam daalo!");return;}
+  if(!selGroupUsers.size){alert("Kam se kam ek member select karo!");return;}
+  await addDoc(collection(db,"rooms"),{type:"group",name,members:[cu.uid,...Array.from(selGroupUsers)],createdBy:cu.uid,createdAt:serverTimestamp()});
+  selGroupUsers.clear();showNewGroup=false;render();
+};
+
+// ── LIGHTBOX ───────────────────────────────────────────────────────────
+window.openLB=src=>{lightboxSrc=decodeURIComponent(src);render();};
+window.closeLB=()=>{lightboxSrc=null;if(currentRoom)renderChatRoom();else render();};
+
+// ── MISC ───────────────────────────────────────────────────────────────
+window.setTab=tab=>{activeTab=tab;viewingUid=null;currentRoom=null;render();};
+window.doLogout=async()=>{if(roomUnsub)roomUnsub();if(postUnsub)postUnsub();await signOut(auth);};
+
+// ── INIT ───────────────────────────────────────────────────────────────
+async function initApp(){
+  const uSnap=await getDocs(collection(db,"users"));
+  allUsers=uSnap.docs.map(d=>({id:d.id,...d.data()}));
+  myData=allUsers.find(u=>u.id===cu.uid);
+  try{await updateDoc(doc(db,"users",cu.uid),{online:true});}catch(e){}
+
+  // Listen posts
+  if(postUnsub)postUnsub();
+  postUnsub=onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snap=>{
+    posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(activeTab==="feed"&&!currentRoom&&!lightboxSrc)render();
+  });
+
+  // Listen rooms
+  if(roomUnsub)roomUnsub();
+  roomUnsub=onSnapshot(query(collection(db,"rooms"),where("members","array-contains",cu.uid)),snap=>{
+    rooms=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(activeTab==="messages"&&!currentRoom)render();
+  });
+
+  render();
+}
+
+onAuthStateChanged(auth,async user=>{
+  if(user){cu=user;await initApp();}
+  else{cu=null;myData=null;allUsers=[];posts=[];rooms=[];if(roomUnsub){roomUnsub();roomUnsub=null;}if(postUnsub){postUnsub();postUnsub=null;}renderAuth();}
+});
+</script>
+</body>
+</html>
