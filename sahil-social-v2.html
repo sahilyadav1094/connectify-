@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Sahil Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--s1:#111;--s2:#1a1a1a;--s3:#222;
+  --bd:#2a2a2a;--a:#7c4dff;--a2:#ff4db8;
+  --t:#f0f0f0;--t2:#888;--t3:#444;
+  --green:#25d366;--red:#ff5566;--yellow:#ffcc44;--blue:#1da1f2;
+  --fn:'Nunito',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fn);margin:0}
+#root{width:100vw;height:100vh;overflow:hidden}
+.loading{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);flex-direction:column;gap:16px}
+.spinner{width:44px;height:44px;border-radius:50%;border:3px solid var(--bd);border-top-color:var(--a);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--t2);font-size:14px}
+
+/* AUTH */
+.auth-screen{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a0a,#1a0a2e);padding:16px;overflow-y:auto}
+.auth-box{width:100%;max-width:380px;background:var(--s1);border:1px solid #2a1a4e;border-radius:24px;padding:30px 22px;box-shadow:0 20px 60px rgba(124,77,255,.2)}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-logo .logo{font-size:48px;margin-bottom:8px}
+.auth-logo h1{font-size:26px;font-weight:900;background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.auth-logo p{font-size:12px;color:var(--t2);margin-top:4px}
+.google-btn{width:100%;padding:13px;border-radius:13px;border:1px solid #3a3a3a;background:var(--s2);color:var(--t);font-family:var(--fn);font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-bottom:14px}
+.google-btn:hover{border-color:var(--a)}
+.divider{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.divider-line{flex:1;height:1px;background:var(--bd)}
+.divider-text{font-size:12px;color:var(--t3);font-weight:700}
+.tabs{display:flex;gap:4px;background:var(--s2);padding:4px;border-radius:12px;margin-bottom:16px}
+.tab{flex:1;padding:8px;border-radius:9px;border:none;background:transparent;color:var(--t2);font-family:var(--fn);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.tab.on{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:10px;font-weight:800;color:var(--t2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px}
+.field input{width:100%;padding:11px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(124,77,255,.1)}
+.field input::placeholder{color:var(--t3)}
+.field-hint{font-size:10px;color:var(--t3);margin-top:4px}
+.err{font-size:12px;color:var(--red);background:rgba(255,85,102,.08);border:1px solid rgba(255,85,102,.2);border-radius:9px;padding:8px 12px;margin-bottom:12px}
+.auth-btn{width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font-family:var(--fn);font-size:15px;font-weight:900;cursor:pointer;transition:transform .15s;box-shadow:0 6px 20px rgba(124,77,255,.4);margin-top:4px}
+.auth-btn:hover{transform:translateY(-2px)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* APP */
+.app{width:100vw;height:100vh;display:flex;flex-direction:column;background:var(--bg)}
+.topbar{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0;z-index:20}
+.topbar h2{font-size:18px;font-weight:900;background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex:1}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--t2);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
+.back-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--a);cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center}
+.bottom-nav{height:54px;background:var(--s1);border-top:1px solid var(--bd);display:flex;flex-shrink:0}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--t3);cursor:pointer;font-family:var(--fn);font-size:9px;font-weight:700;transition:color .2s}
+.nav-btn.on{color:var(--a)}
+.nav-icon{font-size:22px;line-height:1}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden}
+.screen::-webkit-scrollbar{width:0}
+
+/* STORIES */
+.stories-wrap{display:flex;gap:10px;padding:12px 14px;overflow-x:auto;background:var(--s1);border-bottom:1px solid var(--bd);flex-shrink:0}
+.stories-wrap::-webkit-scrollbar{height:0}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}
+.story-ring{width:60px;height:60px;border-radius:50%;padding:2px}
+.story-ring.unseen{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.story-ring.seen{background:var(--bd)}
+.story-ring.mine{background:linear-gradient(135deg,var(--a),var(--a2))}
+.story-av{width:100%;height:100%;border-radius:50%;background:var(--s2);border:2px solid var(--s1);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden}
+.story-av img{width:100%;height:100%;object-fit:cover}
+.story-name{font-size:10px;color:var(--t2);font-weight:700;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.add-story-icon{background:linear-gradient(135deg,var(--a),var(--a2));border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px}
+
+/* POSTS */
+.post-card{background:var(--s1);border-bottom:2px solid var(--bg)}
+.post-header{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.post-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;overflow:hidden}
+.post-av img{width:100%;height:100%;object-fit:cover}
+.post-uname{font-size:13px;font-weight:900;color:var(--t);cursor:pointer;display:flex;align-items:center;gap:3px}
+.blue-tick{color:var(--blue);font-size:13px}
+.crown{font-size:12px}
+.post-loc{font-size:11px;color:var(--t2)}
+.post-more{margin-left:auto;background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;padding:4px}
+.post-media{width:100%;aspect-ratio:1;background:var(--s2);overflow:hidden;cursor:pointer}
+.post-media img,.post-media video{width:100%;height:100%;object-fit:cover}
+.post-actions{display:flex;align-items:center;gap:4px;padding:8px 14px 4px}
+.action-btn{background:none;border:none;font-size:24px;cursor:pointer;padding:4px;transition:transform .15s;color:var(--t)}
+.action-btn:hover{transform:scale(1.15)}
+.save-btn{margin-left:auto}
+.post-likes{font-size:13px;font-weight:800;color:var(--t);padding:0 14px 4px}
+.post-caption{font-size:13px;color:var(--t);padding:0 14px 4px;line-height:1.5}
+.post-caption b{font-weight:900}
+.post-time{font-size:11px;color:var(--t3);padding:0 14px 10px}
+.view-cmts{font-size:12px;color:var(--t2);padding:0 14px 6px;cursor:pointer}
+.admin-del-btn{background:rgba(255,85,102,.1);border:1px solid rgba(255,85,102,.3);color:var(--red);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:0 14px 8px}
+
+/* SEARCH */
+.search-bar{padding:10px 14px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--bd)}
+.search-input{width:100%;padding:10px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:22px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none}
+.search-input::placeholder{color:var(--t3)}
+.people-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #151515;cursor:pointer}
+.people-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.people-av img{width:100%;height:100%;object-fit:cover}
+.people-uname{font-size:14px;font-weight:900;color:var(--t);display:flex;align-items:center;gap:3px}
+.people-name{font-size:12px;color:var(--t2);margin-top:1px}
+.people-fol{font-size:11px;color:var(--t3);margin-top:1px}
+.mini-follow-btn{padding:6px 14px;border-radius:20px;border:none;font-family:var(--fn);font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0}
+.btn-follow{background:var(--a);color:#fff}
+.btn-following{background:var(--s2);border:1px solid var(--bd)!important;color:var(--t2)}
+
+/* PROFILE */
+.prof-cover{height:100px;background:linear-gradient(135deg,var(--a),var(--a2));position:relative}
+.prof-av-wrap{position:absolute;bottom:-30px;left:16px}
+.prof-pic{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:34px;border:3px solid var(--bg);flex-shrink:0;overflow:hidden}
+.prof-pic img{width:100%;height:100%;object-fit:cover}
+.prof-body{padding:44px 16px 12px}
+.prof-name-row{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.prof-name{font-size:16px;font-weight:900;color:var(--t)}
+.prof-uname-tag{font-size:12px;color:var(--t2);margin-bottom:6px}
+.prof-bio{font-size:13px;color:var(--t);line-height:1.5;margin-bottom:10px}
+.prof-stats{display:flex;gap:0;margin-bottom:12px}
+.stat-item{flex:1;text-align:center;cursor:pointer;padding:6px 0;border-radius:10px;transition:background .2s}
+.stat-item:hover{background:var(--s2)}
+.stat-num{font-size:18px;font-weight:900;color:var(--t);display:block}
+.stat-lbl{font-size:11px;color:var(--t2)}
+.prof-btns{display:flex;gap:8px;margin-bottom:14px}
+.prof-btn{flex:1;padding:8px;border-radius:10px;border:1px solid var(--bd);background:var(--s2);color:var(--t);font-family:var(--fn);font-size:13px;font-weight:800;cursor:pointer}
+.prof-btn.follow-btn-p{background:var(--a);border-color:var(--a);color:#fff}
+.highlights-wrap{display:flex;gap:14px;padding:0 14px 14px;overflow-x:auto}
+.highlights-wrap::-webkit-scrollbar{height:0}
+.highlight-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}
+.highlight-ring{width:58px;height:58px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--s2);overflow:hidden}
+.highlight-ring img{width:100%;height:100%;object-fit:cover}
+.highlight-name{font-size:10px;color:var(--t2);font-weight:700;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-top:1px solid var(--bd)}
+.grid-post{aspect-ratio:1;background:var(--s2);overflow:hidden;cursor:pointer;position:relative}
+.grid-post img,.grid-post video{width:100%;height:100%;object-fit:cover}
+.grid-post-ov{position:absolute;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;gap:8px;color:#fff;font-size:13px;font-weight:800}
+.grid-post:hover .grid-post-ov{display:flex}
+
+/* FOLLOWERS/FOLLOWING LIST */
+.user-list-screen{position:fixed;inset:0;background:var(--bg);z-index:150;display:flex;flex-direction:column}
+.user-list-hdr{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+.user-list-hdr h3{font-size:16px;font-weight:900;color:var(--t);flex:1;text-align:center}
+
+/* MESSAGES */
+.chat-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #151515;cursor:pointer}
+.chat-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.chat-av img{width:100%;height:100%;object-fit:cover}
+.chat-uname{font-size:14px;font-weight:900;color:var(--t)}
+.chat-prev{font-size:12px;color:var(--t2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.room-hdr{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;padding:0 14px;flex-shrink:0}
+.room-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden;cursor:pointer}
+.room-av img{width:100%;height:100%;object-fit:cover}
+.room-uname{font-size:14px;font-weight:900;color:var(--t)}
+.room-status{font-size:11px;color:var(--green)}
+.messages{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.messages::-webkit-scrollbar{width:0}
+.msg-w{display:flex;flex-direction:column;max-width:75%}
+.msg-w.me{align-self:flex-end;align-items:flex-end}
+.msg-w.other{align-self:flex-start;align-items:flex-start}
+.msg-bbl{padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.5;word-break:break-word}
+.msg-w.me .msg-bbl{background:linear-gradient(135deg,var(--a),#5c2dff);color:#fff;border-bottom-right-radius:4px}
+.msg-w.other .msg-bbl{background:var(--s2);color:var(--t);border-bottom-left-radius:4px;border:1px solid var(--bd)}
+.msg-img{max-width:180px;border-radius:12px;cursor:pointer;display:block;margin-top:2px}
+.msg-time{font-size:10px;color:var(--t3);padding:2px 4px}
+.msg-input-area{display:flex;gap:8px;align-items:flex-end;padding:8px 12px 10px;background:var(--s1);border-top:1px solid var(--bd);flex-shrink:0}
+.attach-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:var(--s2);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg-input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:9px 15px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;resize:none;max-height:100px;line-height:1.4;transition:border-color .2s}
+.msg-input:focus{border-color:var(--a)}
+.msg-input::placeholder{color:var(--t3)}
+.send-btn{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal{width:100%;max-width:500px;background:var(--s1);border-radius:24px 24px 0 0;padding:22px;border-top:1px solid var(--bd);max-height:85vh;overflow-y:auto}
+.modal h3{font-size:17px;font-weight:900;color:var(--t);margin-bottom:16px}
+.modal-btns{display:flex;gap:8px;margin-top:12px}
+.modal-btn{flex:1;padding:12px;border-radius:12px;border:none;font-family:var(--fn);font-size:14px;font-weight:800;cursor:pointer}
+.modal-btn.cancel{background:var(--s2);color:var(--t2)}
+.modal-btn.confirm{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.edit-field{margin-bottom:14px}
+.edit-field label{display:block;font-size:10px;font-weight:800;color:var(--t2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px}
+.edit-field input,.edit-field textarea{width:100%;padding:11px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none;resize:none}
+.edit-field input:focus,.edit-field textarea:focus{border-color:var(--a)}
+.upload-area{border:2px dashed var(--bd);border-radius:16px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:14px}
+.upload-area:hover{border-color:var(--a)}
+.upload-area .u-icon{font-size:32px;margin-bottom:6px}
+.upload-area p{color:var(--t2);font-size:13px}
+.upload-prev{width:100%;border-radius:12px;max-height:180px;object-fit:cover;margin-bottom:14px}
+
+/* STORY VIEWER */
+.story-viewer{position:fixed;inset:0;background:#000;z-index:500;display:flex;flex-direction:column}
+.story-bar{display:flex;gap:3px;padding:10px 12px 4px}
+.story-seg{flex:1;height:2px;border-radius:2px;background:rgba(255,255,255,.3)}
+.story-seg.done{background:#fff}
+.story-top{display:flex;align-items:center;gap:10px;padding:6px 12px}
+.story-av-sm{width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--a);display:flex;align-items:center;justify-content:center}
+.story-uname-t{font-size:14px;font-weight:800;color:#fff}
+.story-time-t{font-size:11px;color:rgba(255,255,255,.6)}
+.story-close{margin-left:auto;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+.story-body{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.story-body img,.story-body video{max-width:100%;max-height:100%;object-fit:contain}
+
+/* COMMENTS */
+.cmts-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;flex-direction:column}
+.cmts-hdr{height:52px;background:var(--s1);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px}
+.cmt-item{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid #151515}
+.cmt-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;overflow:hidden}
+.cmt-av img{width:100%;height:100%;object-fit:cover}
+.cmt-uname{font-size:13px;font-weight:900;color:var(--t)}
+.cmt-text{font-size:13px;color:var(--t);margin-top:2px;line-height:1.4}
+.cmt-time{font-size:11px;color:var(--t3);margin-top:3px}
+.cmt-input-area{display:flex;gap:8px;align-items:center;padding:10px 14px;background:var(--s1);border-top:1px solid var(--bd);flex-shrink:0}
+.cmt-input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:9px 15px;color:var(--t);font-family:var(--fn);font-size:14px;outline:none}
+.cmt-send{background:none;border:none;color:var(--a);font-size:14px;font-weight:900;cursor:pointer}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lb img{max-width:95vw;max-height:95vh;border-radius:12px}
+
+/* ADMIN PANEL */
+.admin-panel{background:rgba(255,204,68,.06);border:1px solid rgba(255,204,68,.2);border-radius:12px;margin:12px 14px;padding:14px}
+.admin-panel h4{font-size:13px;font-weight:900;color:var(--yellow);margin-bottom:10px}
+.admin-search{width:100%;padding:9px 12px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;color:var(--t);font-family:var(--fn);font-size:13px;outline:none;margin-bottom:8px}
+.admin-user-item{display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px}
+.admin-user-item:hover{background:var(--s2)}
+.tick-btn{padding:4px 10px;border-radius:8px;border:none;font-family:var(--fn);font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
+.tick-btn.add{background:rgba(29,161,242,.15);border:1px solid rgba(29,161,242,.3);color:var(--blue)}
+.tick-btn.rem{background:rgba(255,85,102,.1);border:1px solid rgba(255,85,102,.2);color:var(--red)}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 24px;gap:12px;text-align:center}
+.e-icon{font-size:48px;opacity:.4}
+.e-text{font-size:14px;color:var(--t3);line-height:1.6}
+</style>
+</head>
+<body>
+<div id="root"><div class="loading"><div class="spinner"></div><p>Loading Sahil Social...</p></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, getDocs, updateDoc, arrayUnion, arrayRemove, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const FB = {
+  apiKey:"AIzaSyCZ7mcpaXf750sV8S7Q59Ys-EQ_ZyNef1M",
+  authDomain:"sahil-chat1094.firebaseapp.com",
+  projectId:"sahil-chat1094",
+  storageBucket:"sahil-chat1094.firebasestorage.app",
+  messagingSenderId:"816695455704",
+  appId:"1:816695455704:web:795656a53e7c349538ccad"
+};
+const CLOUD_NAME    = "dlk2hvptj";
+const UPLOAD_PRESET = "Connectify";
+const ADMIN_USERNAME = "connectify"; // 👑 Owner account
+
+const app  = initializeApp(FB);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const gPro = new GoogleAuthProvider();
+
+// ── PERSISTENCE (Auto-login fix) ──────────────────────────────────────
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+
+// ── STATE ─────────────────────────────────────────────────────────────
+let cu=null, myData=null;
+let allUsers=[], posts=[], rooms=[];
+let activeTab="feed";
+let lightboxSrc=null, storyViewing=null;
+let showComments=null, showNewPost=false;
+let showNewStory=false, showEditProfile=false, showNewGroup=false;
+let pendingMsgPhoto=null;
+let searchQ="", authIsReg=false, authErr="";
+let msgUnsubs={}, roomUnsub=null, postUnsub=null;
+let selGroupUsers=new Set();
+let showUserList=null; // {uid, type: 'followers'|'following'}
+let adminSearchQ="";
+
+// ── NAVIGATION STACK ──────────────────────────────────────────────────
+// Stack stores screen states for proper back navigation
+let navStack = []; // [{screen, data}]
+let currentScreen = {screen:"feed", data:null};
+
+function pushScreen(screen, data=null) {
+  navStack.push({...currentScreen});
+  currentScreen = {screen, data};
+  render();
+}
+
+function popScreen() {
+  if(navStack.length > 0) {
+    currentScreen = navStack.pop();
+    render();
+  }
+}
+
+// Double click back = pop 2 screens
+let lastBackClick = 0;
+function handleBack() {
+  const now = Date.now();
+  if(now - lastBackClick < 300) {
+    // Double click — pop 2
+    if(navStack.length > 0) navStack.pop();
+    if(navStack.length > 0) {
+      currentScreen = navStack.pop();
+    } else if(navStack.length === 0) {
+      currentScreen = {screen:"feed", data:null};
+    }
+    render();
+  } else {
+    // Single click — pop 1
+    popScreen();
+  }
+  lastBackClick = now;
+}
+
+const root = document.getElementById("root");
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+const fmtTime = ts => { if(!ts) return ""; const d=ts.toDate?ts.toDate():new Date(); return d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); };
+const fmtDate = ts => { if(!ts) return ""; const d=ts.toDate?ts.toDate():new Date(); return d.toLocaleDateString(); };
+const getUser = uid => allUsers.find(u=>u.id===uid)||{};
+const isFollowing = uid => myData?.following?.includes(uid)||false;
+const isAdmin = () => myData?.username === ADMIN_USERNAME;
+const hasBlueTick = u => u?.blueTick||false;
+
+const avEl = (u, size="46px") => {
+  const s = parseInt(size);
+  if(u?.photoURL) return `<div style="width:${size};height:${size};border-radius:50%;overflow:hidden;flex-shrink:0"><img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover"/></div>`;
+  return `<div style="width:${size};height:${size};border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:${s/2.2}px;flex-shrink:0">${u?.emoji||"👤"}</div>`;
+};
+
+const uploadMedia = async file => {
+  const fd=new FormData();
+  fd.append("file",file); fd.append("upload_preset",UPLOAD_PRESET); fd.append("cloud_name",CLOUD_NAME);
+  const isVid=file.type.startsWith("video/");
+  const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVid?"video":"image"}/upload`,{method:"POST",body:fd});
+  const data=await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return {url:data.secure_url,type:isVid?"video":"image"};
+};
+
+const unameDisplay = u => {
+  if(!u) return "";
+  let n = `@${u.username||u.name}`;
+  if(u.username===ADMIN_USERNAME) return `👑 ${n}`;
+  if(u.blueTick) return `${n} <span class="blue-tick">✓</span>`;
+  return n;
+};
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function render() {
+  if(!cu){renderAuth();return;}
+  if(lightboxSrc){root.innerHTML=`<div class="lb" onclick="closeLB()"><img src="${lightboxSrc}"/></div>`;return;}
+  if(storyViewing){renderStoryViewer();return;}
+  if(showComments){renderComments();return;}
+  if(showUserList){renderUserList();return;}
+
+  const scr = currentScreen.screen;
+  const data = currentScreen.data;
+
+  if(scr==="userProfile") { renderUserProfile(data); return; }
+  if(scr==="chatRoom")    { renderChatRoom(data); return; }
+  renderMain(scr, data);
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────
+function renderAuth(){
+  root.innerHTML=`
+  <div class="auth-screen">
+    <div class="auth-box">
+      <div class="auth-logo"><div class="logo">✨</div><h1>Sahil Social</h1><p>Apni duniya • Share karo • Connect karo</p></div>
+      <button class="google-btn" id="gBtn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Google se Login
+      </button>
+      <div class="divider"><div class="divider-line"></div><span class="divider-text">YA</span><div class="divider-line"></div></div>
+      <div class="tabs">
+        <button class="tab ${!authIsReg?"on":""}" onclick="setAuthTab(false)">🔑 Login</button>
+        <button class="tab ${authIsReg?"on":""}" onclick="setAuthTab(true)">🆕 Register</button>
+      </div>
+      ${authErr?`<div class="err">${authErr}</div>`:""}
+      ${authIsReg?`
+        <div class="field"><label>Poora Naam</label><input type="text" id="nameI" placeholder="Sahil Yadav"/></div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="unameI" placeholder="sahil_yadav" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"/>
+          <div class="field-hint">Sirf lowercase letters, numbers, _ aur . use karo</div>
+        </div>
+      `:""}
+      <div class="field"><label>Email</label><input type="email" id="emailI" placeholder="email@example.com"/></div>
+      <div class="field"><label>Password</label><input type="password" id="passI" placeholder="password (6+ chars)..." onkeydown="if(event.key==='Enter')emailAuth()"/></div>
+      <button class="auth-btn" id="authBtn" onclick="emailAuth()">${authIsReg?"🚀 Account Banao":"👋 Login Karo"}</button>
+    </div>
+  </div>`;
+}
+
+window.setAuthTab=r=>{authIsReg=r;authErr="";render();};
+
+window.googleLogin=async()=>{
+  const btn=document.getElementById("gBtn");
+  if(btn){btn.disabled=true;btn.textContent="⏳ Ruko...";}
+  try{
+    const res=await signInWithPopup(auth,gPro);
+    const user=res.user;
+    const ref=doc(db,"users",user.uid);
+    const snap=await getDoc(ref);
+    if(!snap.exists()){
+      const emojis=["😎","🤩","🔥","💪","⚡","🌟","🎯","🚀","💎","🦁"];
+      const baseUname=(user.displayName||"user").toLowerCase().replace(/[^a-z0-9]/g,"_").slice(0,12);
+      const uname=baseUname+"_"+Math.floor(Math.random()*999);
+      await setDoc(ref,{name:user.displayName||"User",username:uname,email:user.email,photoURL:user.photoURL||null,emoji:emojis[Math.floor(Math.random()*emojis.length)],bio:"",uid:user.uid,following:[],followers:[],blueTick:false,createdAt:serverTimestamp(),online:true});
+    }else{
+      await updateDoc(ref,{online:true,photoURL:user.photoURL||null});
+    }
+  }catch(e){authErr="❌ Google login failed. "+e.message;render();}
+};
+
+window.emailAuth=async()=>{
+  const btn=document.getElementById("authBtn");
+  const email=document.getElementById("emailI")?.value.trim();
+  const pass=document.getElementById("passI")?.value;
+  const name=document.getElementById("nameI")?.value.trim();
+  const uname=document.getElementById("unameI")?.value.trim();
+  if(!email||!pass){authErr="❌ Email aur password chahiye!";render();return;}
+  if(authIsReg){
+    if(!name){authErr="❌ Naam daalo!";render();return;}
+    if(!uname||uname.length<3){authErr="❌ Username 3+ chars ka hona chahiye!";render();return;}
+  }
+  if(btn){btn.disabled=true;btn.textContent="⏳ Ruko...";}
+  try{
+    const emojis=["😎","🤩","🔥","💪","⚡","🌟","🎯","🚀","💎","🦁","🐯","🦊"];
+    if(authIsReg){
+      const usnap=await getDocs(query(collection(db,"users"),where("username","==",uname)));
+      if(!usnap.empty){authErr="❌ Yeh username already le chuka hai koi!";render();return;}
+      const cred=await createUserWithEmailAndPassword(auth,email,pass);
+      await updateProfile(cred.user,{displayName:name});
+      await setDoc(doc(db,"users",cred.user.uid),{name,username:uname,email,uid:cred.user.uid,photoURL:null,emoji:emojis[Math.floor(Math.random()*emojis.length)],bio:"",following:[],followers:[],blueTick:false,createdAt:serverTimestamp(),online:true});
+    }else{
+      await signInWithEmailAndPassword(auth,email,pass);
+    }
+  }catch(e){
+    authErr=e.code==="auth/user-not-found"?"❌ User nahi mila! Pehle register karo.":e.code==="auth/wrong-password"?"❌ Password galat hai!":e.code==="auth/email-already-in-use"?"❌ Email already use ho rahi hai!":e.code==="auth/weak-password"?"❌ Password 6+ chars ka hona chahiye!":"❌ "+e.message;
+    render();
+  }
+};
+
+// ── MAIN ──────────────────────────────────────────────────────────────
+function renderMain(scr, data){
+  let topbar="", content="";
+  const tab = scr||"feed";
+
+  if(tab==="feed"){
+    topbar=`<div class="topbar"><h2>✨ Sahil Social</h2><button class="icon-btn" onclick="goNewPost()">➕</button><button class="icon-btn" onclick="goTab('messages')">💬</button></div>`;
+    content=renderFeed();
+  }else if(tab==="search"){
+    topbar=`<div class="topbar"><h2>🔍 Search</h2></div>`;
+    content=renderSearch();
+  }else if(tab==="messages"){
+    topbar=`<div class="topbar"><h2>💬 Messages</h2><button class="icon-btn" onclick="openGroupModal()">➕</button></div>`;
+    content=renderMsgList();
+  }else if(tab==="profile"){
+    topbar=`<div class="topbar"><h2>@${myData?.username||"profile"}</h2><button class="icon-btn" onclick="showEditProf()">⚙️</button><button class="icon-btn" onclick="doLogout()">🚪</button></div>`;
+    content=renderMyProfile();
+  }
+
+  root.innerHTML=`
+    <div class="app">
+      ${topbar}
+      <div class="screen" id="mainScreen">${content}</div>
+      <div class="bottom-nav">
+        <button class="nav-btn ${tab==="feed"?"on":""}" onclick="goTab('feed')"><span class="nav-icon">🏠</span>Home</button>
+        <button class="nav-btn ${tab==="search"?"on":""}" onclick="goTab('search')"><span class="nav-icon">🔍</span>Search</button>
+        <button class="nav-btn" onclick="goNewPost()"><span class="nav-icon">➕</span>Post</button>
+        <button class="nav-btn ${tab==="messages"?"on":""}" onclick="goTab('messages')"><span class="nav-icon">💬</span>Chat</button>
+        <button class="nav-btn ${tab==="profile"?"on":""}" onclick="goTab('profile')"><span class="nav-icon">${myData?.photoURL?`<img src="${myData.photoURL}" style="width:22px;height:22px;border-radius:50%;object-fit:cover">`:myData?.emoji||"👤"}</span>Profile</button>
+      </div>
+    </div>
+    ${showNewPost?renderNewPostModal():""}
+    ${showNewStory?renderNewStoryModal():""}
+    ${showEditProfile?renderEditProfileModal():""}
+    ${showNewGroup?renderGroupModal():""}`;
+}
+
+window.goTab = tab => {
+  navStack=[];
+  currentScreen={screen:tab,data:null};
+  render();
+};
+
+// ── FEED ──────────────────────────────────────────────────────────────
+function renderFeed(){
+  const others=allUsers.filter(u=>u.id!==cu.uid);
+  let html=`<div class="stories-wrap">
+    <div class="story-item" onclick="goNewStory()">
+      <div class="story-ring mine"><div class="story-av"><div class="add-story-icon">+</div></div></div>
+      <div class="story-name">Tumhari</div>
+    </div>
+    ${others.slice(0,10).map(u=>`
+      <div class="story-item" onclick="viewStory('${u.id}')">
+        <div class="story-ring unseen"><div class="story-av">${u.photoURL?`<img src="${u.photoURL}"/>`:`<span style="font-size:22px">${u.emoji||"👤"}</span>`}</div></div>
+        <div class="story-name">${u.username||u.name}</div>
+      </div>`).join("")}
+  </div>`;
+
+  const feedPosts=posts.filter(p=>p.uid===cu.uid||(myData?.following||[]).includes(p.uid));
+  if(!feedPosts.length){html+=`<div class="empty-state"><div class="e-icon">📸</div><div class="e-text">Koi post nahi!<br/>Kisi ko follow karo ya post karo.</div></div>`;return html;}
+
+  feedPosts.forEach(p=>{
+    const user=getUser(p.uid);
+    const liked=(p.likes||[]).includes(cu.uid);
+    html+=`<div class="post-card">
+      <div class="post-header">
+        <div class="post-av" onclick="goProfile('${p.uid}')">${user.photoURL?`<img src="${user.photoURL}"/>`:user.emoji||"👤"}</div>
+        <div style="flex:1;cursor:pointer" onclick="goProfile('${p.uid}')">
+          <div class="post-uname">${unameDisplay(user)}</div>
+          ${p.location?`<div class="post-loc">📍 ${p.location}</div>`:""}
+        </div>
+        <button class="post-more">•••</button>
+      </div>
+      <div class="post-media" onclick="openLB('${encodeURIComponent(p.mediaUrl)}')">
+        ${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted playsinline loop autoplay></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}
+      </div>
+      <div class="post-actions">
+        <button class="action-btn" onclick="toggleLike('${p.id}')" style="color:${liked?"var(--red)":"var(--t2)"}">${liked?"❤️":"🤍"}</button>
+        <button class="action-btn" onclick="openCmts('${p.id}')">💬</button>
+        <button class="action-btn">📤</button>
+        <button class="action-btn save-btn">🔖</button>
+      </div>
+      <div class="post-likes">${(p.likes||[]).length} likes</div>
+      ${p.caption?`<div class="post-caption"><b>${unameDisplay(user)}</b> ${p.caption}</div>`:""}
+      <div class="view-cmts" onclick="openCmts('${p.id}')">Sab comments dekho</div>
+      ${isAdmin()?`<button class="admin-del-btn" onclick="adminDelPost('${p.id}')">🗑️ Post Delete Karo (Admin)</button>`:""}
+      <div class="post-time">${fmtDate(p.createdAt)}</div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────
+function renderSearch(){
+  const filtered=allUsers.filter(u=>u.id!==cu.uid&&(!searchQ||(u.username||"").includes(searchQ.toLowerCase())||(u.name||"").toLowerCase().includes(searchQ.toLowerCase())));
+  let html=`<div class="search-bar"><input class="search-input" placeholder="🔍 @username se search karo..." value="${searchQ}" oninput="updateSearch(this.value)"/></div>`;
+  if(!filtered.length)html+=`<div class="empty-state"><div class="e-icon">👥</div><div class="e-text">Koi nahi mila!</div></div>`;
+  filtered.forEach(u=>{
+    const f=isFollowing(u.id);
+    html+=`<div class="people-item" onclick="goProfile('${u.id}')">
+      ${avEl(u)}
+      <div style="flex:1">
+        <div class="people-uname">${unameDisplay(u)}</div>
+        <div class="people-name">${u.name}</div>
+        <div class="people-fol">${(u.followers||[]).length} followers</div>
+      </div>
+      <button class="mini-follow-btn ${f?"btn-following":"btn-follow"}" onclick="event.stopPropagation();toggleFollow('${u.id}')">${f?"✓ Following":"+ Follow"}</button>
+    </div>`;
+  });
+  return html;
+}
+window.updateSearch=q=>{searchQ=q;if(document.getElementById("mainScreen"))document.getElementById("mainScreen").innerHTML=renderSearch();};
+
+// ── MESSAGES LIST ─────────────────────────────────────────────────────
+function renderMsgList(){
+  if(!rooms.length)return`<div class="empty-state"><div class="e-icon">💬</div><div class="e-text">Koi message nahi!<br/>Profile pe jao aur message karo.</div></div>`;
+  let html="";
+  rooms.forEach(r=>{
+    const oid=r.type==="dm"?r.members?.find(m=>m!==cu.uid):null;
+    const other=oid?getUser(oid):{};
+    const uname=r.type==="group"?r.name:`@${other.username||other.name||"user"}`;
+    html+=`<div class="chat-item" onclick="goRoom('${r.id}')">
+      <div class="chat-av">${r.type==="group"?"👥":other.photoURL?`<img src="${other.photoURL}"/>`:other.emoji||"👤"}</div>
+      <div style="flex:1;min-width:0"><div class="chat-uname">${uname}</div><div class="chat-prev">${other.name||r.name||""}</div></div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── MY PROFILE ────────────────────────────────────────────────────────
+function renderMyProfile(){
+  const myPosts=posts.filter(p=>p.uid===cu.uid);
+  return `
+    <div style="position:relative">
+      <div class="prof-cover"></div>
+      <div class="prof-av-wrap"><div class="prof-pic">${myData?.photoURL?`<img src="${myData.photoURL}"/>`:myData?.emoji||"👤"}</div></div>
+    </div>
+    <div class="prof-body">
+      <div class="prof-name-row">
+        <div class="prof-name">${myData?.name||"User"}</div>
+        ${myData?.username===ADMIN_USERNAME?`<span style="font-size:16px">👑</span>`:""}
+        ${myData?.blueTick&&myData?.username!==ADMIN_USERNAME?`<span class="blue-tick" style="font-size:16px">✓</span>`:""}
+      </div>
+      <div class="prof-uname-tag">@${myData?.username||"username"}</div>
+      ${myData?.bio?`<div class="prof-bio">${myData.bio}</div>`:""}
+      <div class="prof-stats">
+        <div class="stat-item"><span class="stat-num">${myPosts.length}</span><span class="stat-lbl">Posts</span></div>
+        <div class="stat-item" onclick="openUserList('${cu.uid}','followers')"><span class="stat-num">${(myData?.followers||[]).length}</span><span class="stat-lbl">Followers</span></div>
+        <div class="stat-item" onclick="openUserList('${cu.uid}','following')"><span class="stat-num">${(myData?.following||[]).length}</span><span class="stat-lbl">Following</span></div>
+      </div>
+      <div class="prof-btns">
+        <button class="prof-btn" onclick="showEditProf()">✏️ Edit Profile</button>
+        <button class="prof-btn" onclick="goNewPost()">➕ Post Karo</button>
+      </div>
+    </div>
+    ${isAdmin()?renderAdminPanel():""}
+    <div class="posts-grid">
+      ${myPosts.map(p=>`<div class="grid-post" onclick="openLB('${encodeURIComponent(p.mediaUrl)}')">
+        ${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}
+        <div class="grid-post-ov">❤️ ${(p.likes||[]).length}</div>
+      </div>`).join("")||`<div style="grid-column:span 3;padding:40px;text-align:center;color:var(--t3);font-size:13px">Koi post nahi abhi</div>`}
+    </div>`;
+}
+
+// ── ADMIN PANEL ────────────────────────────────────────────────────────
+function renderAdminPanel(){
+  const others=allUsers.filter(u=>u.id!==cu.uid&&(!adminSearchQ||(u.username||"").includes(adminSearchQ.toLowerCase())));
+  return `<div class="admin-panel">
+    <h4>👑 Admin Controls — Sirf Tumhare Liye</h4>
+    <input class="admin-search" placeholder="Username se user dhundho..." value="${adminSearchQ}" oninput="updateAdminSearch(this.value)"/>
+    ${others.slice(0,10).map(u=>`
+      <div class="admin-user-item">
+        ${avEl(u,"32px")}
+        <span style="flex:1;font-size:13px;color:var(--t);font-weight:700">@${u.username||u.name}</span>
+        <button class="tick-btn ${u.blueTick?"rem":"add"}" onclick="toggleBlueTick('${u.id}',${u.blueTick||false})">
+          ${u.blueTick?"✓ Tick Hatao":"✓ Blue Tick Do"}
+        </button>
+      </div>`).join("")}
+  </div>`;
+}
+window.updateAdminSearch=q=>{adminSearchQ=q;if(document.getElementById("mainScreen"))document.getElementById("mainScreen").innerHTML=renderMyProfile();};
+
+window.toggleBlueTick=async(uid,hasTick)=>{
+  if(!isAdmin()){alert("Sirf admin yeh kar sakta hai!");return;}
+  await updateDoc(doc(db,"users",uid),{blueTick:!hasTick});
+  const snap=await getDocs(collection(db,"users"));
+  allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(document.getElementById("mainScreen"))document.getElementById("mainScreen").innerHTML=renderMyProfile();
+};
+
+window.adminDelPost=async postId=>{
+  if(!isAdmin()){alert("Sirf admin yeh kar sakta hai!");return;}
+  if(!confirm("Yeh post delete karna chahte ho?"))return;
+  await deleteDoc(doc(db,"posts",postId));
+  posts=posts.filter(p=>p.id!==postId);
+  render();
+};
+
+// ── USER PROFILE ──────────────────────────────────────────────────────
+function renderUserProfile(uid){
+  const u=getUser(uid);
+  const f=isFollowing(uid);
+  const uPosts=posts.filter(p=>p.uid===uid);
+  root.innerHTML=`
+    <div class="app">
+      <div class="topbar">
+        <button class="back-icon-btn" onclick="handleBack()">←</button>
+        <h2>${u.username===ADMIN_USERNAME?"👑 ":""}@${u.username||u.name}</h2>
+      </div>
+      <div class="screen">
+        <div style="position:relative">
+          <div class="prof-cover"></div>
+          <div class="prof-av-wrap"><div class="prof-pic">${u.photoURL?`<img src="${u.photoURL}"/>`:u.emoji||"👤"}</div></div>
+        </div>
+        <div class="prof-body">
+          <div class="prof-name-row">
+            <div class="prof-name">${u.name}</div>
+            ${u.username===ADMIN_USERNAME?`<span style="font-size:16px">👑</span>`:""}
+            ${u.blueTick&&u.username!==ADMIN_USERNAME?`<span class="blue-tick" style="font-size:16px">✓</span>`:""}
+          </div>
+          <div class="prof-uname-tag">@${u.username||u.name}</div>
+          ${u.bio?`<div class="prof-bio">${u.bio}</div>`:""}
+          <div class="prof-stats">
+            <div class="stat-item"><span class="stat-num">${uPosts.length}</span><span class="stat-lbl">Posts</span></div>
+            <div class="stat-item" onclick="openUserList('${uid}','followers')"><span class="stat-num">${(u.followers||[]).length}</span><span class="stat-lbl">Followers</span></div>
+            <div class="stat-item" onclick="openUserList('${uid}','following')"><span class="stat-num">${(u.following||[]).length}</span><span class="stat-lbl">Following</span></div>
+          </div>
+          <div class="prof-btns">
+            <button class="prof-btn ${f?"":"follow-btn-p"}" onclick="toggleFollow('${uid}')">${f?"✓ Following":"+ Follow"}</button>
+            <button class="prof-btn" onclick="startDM('${uid}')">💬 Message</button>
+          </div>
+        </div>
+        <div class="posts-grid">
+          ${uPosts.map(p=>`<div class="grid-post" onclick="openLB('${encodeURIComponent(p.mediaUrl)}')">${p.mediaType==="video"?`<video src="${p.mediaUrl}" muted></video>`:`<img src="${p.mediaUrl}" loading="lazy"/>`}<div class="grid-post-ov">❤️ ${(p.likes||[]).length}</div></div>`).join("")||`<div style="grid-column:span 3;padding:40px;text-align:center;color:var(--t3);font-size:13px">Koi post nahi</div>`}
+        </div>
+        ${isAdmin()?`<div class="admin-panel" style="margin:12px 14px"><h4>👑 Admin: Is User ke Liye</h4>
+          <button class="tick-btn ${u.blueTick?"rem":"add"}" onclick="toggleBlueTick('${uid}',${u.blueTick||false})" style="width:100%;padding:10px;border-radius:10px">${u.blueTick?"✓ Blue Tick Hatao":"✓ Blue Tick Do"}</button>
+        </div>`:""}
+      </div>
+    </div>`;
+}
+
+window.goProfile=uid=>{
+  if(uid===cu.uid){goTab("profile");return;}
+  pushScreen("userProfile",uid);
+};
+
+// ── FOLLOWERS / FOLLOWING LIST ────────────────────────────────────────
+window.openUserList=(uid,type)=>{showUserList={uid,type};render();};
+
+function renderUserList(){
+  const {uid,type}=showUserList;
+  const u=getUser(uid);
+  const ids=type==="followers"?(u.followers||[]):(u.following||[]);
+  const users=ids.map(id=>getUser(id)).filter(x=>x.id);
+  root.innerHTML=`
+    <div class="user-list-screen">
+      <div class="user-list-hdr">
+        <button class="back-icon-btn" onclick="closeUserList()">←</button>
+        <h3>${type==="followers"?"Followers":"Following"} (${users.length})</h3>
+        <div style="width:34px"></div>
+      </div>
+      <div class="screen">
+        ${users.length?users.map(u=>`
+          <div class="people-item" onclick="closeUserList();goProfile('${u.id}')">
+            ${avEl(u)}
+            <div style="flex:1">
+              <div class="people-uname">${unameDisplay(u)}</div>
+              <div class="people-name">${u.name}</div>
+            </div>
+            ${u.id!==cu.uid?`<button class="mini-follow-btn ${isFollowing(u.id)?"btn-following":"btn-follow"}" onclick="event.stopPropagation();toggleFollow('${u.id}')">${isFollowing(u.id)?"✓ Following":"+ Follow"}</button>`:""}
+          </div>`).join(""):`<div class="empty-state"><div class="e-icon">👥</div><div class="e-text">Koi nahi abhi</div></div>`}
+      </div>
+    </div>`;
+}
+window.closeUserList=()=>{showUserList=null;render();};
+
+// ── FOLLOW ────────────────────────────────────────────────────────────
+window.toggleFollow=async uid=>{
+  const f=isFollowing(uid);
+  if(f){
+    await updateDoc(doc(db,"users",cu.uid),{following:arrayRemove(uid)});
+    await updateDoc(doc(db,"users",uid),{followers:arrayRemove(cu.uid)});
+    myData.following=(myData.following||[]).filter(x=>x!==uid);
+  }else{
+    await updateDoc(doc(db,"users",cu.uid),{following:arrayUnion(uid)});
+    await updateDoc(doc(db,"users",uid),{followers:arrayUnion(cu.uid)});
+    if(!myData.following)myData.following=[];
+    myData.following.push(uid);
+  }
+  const snap=await getDocs(collection(db,"users"));
+  allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+  myData=allUsers.find(u=>u.id===cu.uid);
+  if(currentScreen.screen==="userProfile") renderUserProfile(currentScreen.data);
+  else render();
+};
+
+// ── LIKE ──────────────────────────────────────────────────────────────
+window.toggleLike=async postId=>{
+  const p=posts.find(x=>x.id===postId);if(!p)return;
+  const liked=(p.likes||[]).includes(cu.uid);
+  if(liked)await updateDoc(doc(db,"posts",postId),{likes:arrayRemove(cu.uid)});
+  else await updateDoc(doc(db,"posts",postId),{likes:arrayUnion(cu.uid)});
+};
+
+// ── COMMENTS ─────────────────────────────────────────────────────────
+window.openCmts=postId=>{showComments=postId;render();};
+function renderComments(){
+  const p=posts.find(x=>x.id===showComments)||{comments:[]};
+  root.innerHTML=`
+    <div class="cmts-screen">
+      <div class="cmts-hdr">
+        <button class="back-icon-btn" onclick="closeCmts()">←</button>
+        <span style="flex:1;text-align:center;font-weight:900;color:var(--t)">Comments</span>
+        <div style="width:34px"></div>
+      </div>
+      <div class="screen">
+        ${(p.comments||[]).map(c=>{
+          const u=getUser(c.uid);
+          return `<div class="cmt-item">
+            <div class="cmt-av">${u.photoURL?`<img src="${u.photoURL}"/>`:u.emoji||"👤"}</div>
+            <div><div class="cmt-uname">${unameDisplay(u)}</div><div class="cmt-text">${c.text}</div><div class="cmt-time">${fmtDate(c.ts)}</div></div>
+          </div>`;
+        }).join("")||`<div class="empty-state"><div class="e-icon">💬</div><div class="e-text">Pehle comment karo!</div></div>`}
+      </div>
+      <div class="cmt-input-area">
+        <input class="cmt-input" id="cmtInp" placeholder="Comment likho..." onkeydown="if(event.key==='Enter')addComment('${showComments}')"/>
+        <button class="cmt-send" onclick="addComment('${showComments}')">Post</button>
+      </div>
+    </div>`;
+}
+window.closeCmts=()=>{showComments=null;render();};
+window.addComment=async postId=>{
+  const inp=document.getElementById("cmtInp");
+  const text=inp?.value.trim();if(!text)return;inp.value="";
+  const cmt={uid:cu.uid,text,ts:new Date().toISOString()};
+  await updateDoc(doc(db,"posts",postId),{comments:arrayUnion(cmt)});
+  const snap=await getDoc(doc(db,"posts",postId));
+  const idx=posts.findIndex(p=>p.id===postId);
+  if(idx>=0)posts[idx]={...posts[idx],...snap.data()};
+  renderComments();
+};
+
+// ── STORY ─────────────────────────────────────────────────────────────
+window.viewStory=uid=>{storyViewing=uid;render();};
+function renderStoryViewer(){
+  const u=getUser(storyViewing);
+  root.innerHTML=`
+    <div class="story-viewer">
+      <div class="story-bar"><div class="story-seg done"></div><div class="story-seg"></div></div>
+      <div class="story-top">
+        <div class="story-av-sm">${u.photoURL?`<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover"/>`:u.emoji||"👤"}</div>
+        <div><div class="story-uname-t">@${u.username||u.name}</div><div class="story-time-t">Aaj</div></div>
+        <button class="story-close" onclick="closeStory()">✕</button>
+      </div>
+      <div class="story-body" style="background:linear-gradient(135deg,var(--a),var(--a2));font-size:100px;display:flex;align-items:center;justify-content:center">
+        ${u.emoji||"👤"}
+      </div>
+    </div>`;
+}
+window.closeStory=()=>{storyViewing=null;render();};
+window.goNewStory=()=>{showNewStory=true;render();};
+function renderNewStoryModal(){
+  return `<div class="modal-overlay" onclick="closeStoryModal(event)">
+    <div class="modal">
+      <h3>✨ Naya Story</h3>
+      <div class="upload-area" onclick="document.getElementById('storyFile').click()"><div class="u-icon">📸</div><p>Photo ya video select karo</p></div>
+      <input type="file" id="storyFile" accept="image/*,video/*" style="display:none" onchange="previewStory(event)"/>
+      <div id="storyPrev"></div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeStoryModal()">Cancel</button>
+        <button class="modal-btn confirm" id="storyBtn" onclick="submitStory()">✨ Lagao</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeStoryModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewStory=false;render();}};
+window.previewStory=e=>{const file=e.target.files[0];if(!file)return;const url=URL.createObjectURL(file);const p=document.getElementById("storyPrev");if(p)p.innerHTML=`<img src="${url}" class="upload-prev"/>`;};
+window.submitStory=async()=>{
+  const file=document.getElementById("storyFile")?.files[0];const btn=document.getElementById("storyBtn");
+  if(!file){alert("File select karo!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Upload...";}
+  try{
+    const media=await uploadMedia(file);
+    await addDoc(collection(db,"stories"),{uid:cu.uid,mediaUrl:media.url,mediaType:media.type,createdAt:serverTimestamp()});
+    showNewStory=false;alert("Story lag gayi! ✨");render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="✨ Lagao";}}
+};
+
+// ── NEW POST ──────────────────────────────────────────────────────────
+window.goNewPost=()=>{showNewPost=true;render();};
+function renderNewPostModal(){
+  return `<div class="modal-overlay" onclick="closePostModal(event)">
+    <div class="modal">
+      <h3>➕ Naya Post</h3>
+      <div class="upload-area" onclick="document.getElementById('postFile').click()"><div class="u-icon">📸</div><p>Photo ya Video select karo</p><p style="font-size:11px;color:var(--t3);margin-top:4px">Unlimited size — Cloudinary storage!</p></div>
+      <input type="file" id="postFile" accept="image/*,video/*" style="display:none" onchange="previewPost(event)"/>
+      <div id="postPrev"></div>
+      <div class="edit-field"><label>Caption</label><textarea id="postCap" rows="3" placeholder="Kuch likho..."></textarea></div>
+      <div class="edit-field"><label>Location (optional)</label><input type="text" id="postLoc" placeholder="Mumbai, India"/></div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closePostModal()">Cancel</button>
+        <button class="modal-btn confirm" id="postBtn" onclick="submitPost()">🚀 Post Karo</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closePostModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewPost=false;render();}};
+window.previewPost=e=>{const file=e.target.files[0];if(!file)return;const url=URL.createObjectURL(file);const p=document.getElementById("postPrev");if(p)p.innerHTML=file.type.startsWith("video/")?`<video src="${url}" controls class="upload-prev"></video>`:`<img src="${url}" class="upload-prev"/>`;};
+window.submitPost=async()=>{
+  const file=document.getElementById("postFile")?.files[0];
+  const caption=document.getElementById("postCap")?.value.trim();
+  const location=document.getElementById("postLoc")?.value.trim();
+  const btn=document.getElementById("postBtn");
+  if(!file){alert("Pehle photo ya video select karo!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Upload ho raha hai...";}
+  try{
+    const media=await uploadMedia(file);
+    await addDoc(collection(db,"posts"),{uid:cu.uid,mediaUrl:media.url,mediaType:media.type,caption,location,likes:[],comments:[],createdAt:serverTimestamp()});
+    showNewPost=false;alert("Post ho gaya! 🎉");render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="🚀 Post Karo";}}
+};
+
+// ── EDIT PROFILE ──────────────────────────────────────────────────────
+window.showEditProf=()=>{showEditProfile=true;render();};
+function renderEditProfileModal(){
+  return `<div class="modal-overlay" onclick="closeEditModal(event)">
+    <div class="modal">
+      <h3>✏️ Profile Edit Karo</h3>
+      <div class="edit-field"><label>Naam</label><input type="text" id="eName" value="${myData?.name||""}"/></div>
+      <div class="edit-field"><label>Username</label><input type="text" id="eUname" value="${myData?.username||""}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"/></div>
+      <div class="edit-field"><label>Bio</label><textarea id="eBio" rows="3" placeholder="Apne baare mein...">${myData?.bio||""}</textarea></div>
+      <div class="edit-field"><label>Profile Photo</label>
+        <div class="upload-area" onclick="document.getElementById('ePhoto').click()"><div class="u-icon">📷</div><p>Nayi photo select karo</p></div>
+        <input type="file" id="ePhoto" accept="image/*" style="display:none" onchange="prevEditPhoto(event)"/>
+        <div id="ePhotoPrev"></div>
+      </div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeEditModal()">Cancel</button>
+        <button class="modal-btn confirm" id="saveBtn" onclick="saveProfile()">💾 Save</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeEditModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showEditProfile=false;render();}};
+window.prevEditPhoto=e=>{const f=e.target.files[0];if(!f)return;const url=URL.createObjectURL(f);const p=document.getElementById("ePhotoPrev");if(p)p.innerHTML=`<img src="${url}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--a);margin-top:8px"/>`;};
+window.saveProfile=async()=>{
+  const name=document.getElementById("eName")?.value.trim();
+  const uname=document.getElementById("eUname")?.value.trim();
+  const bio=document.getElementById("eBio")?.value.trim();
+  const photoFile=document.getElementById("ePhoto")?.files[0];
+  const btn=document.getElementById("saveBtn");
+  if(!name||!uname){alert("Naam aur username chahiye!");return;}
+  if(btn){btn.disabled=true;btn.textContent="⏳ Save ho raha hai...";}
+  try{
+    const updates={name,username:uname,bio};
+    if(photoFile){const media=await uploadMedia(photoFile);updates.photoURL=media.url;await updateProfile(cu,{displayName:name,photoURL:media.url});}
+    await updateDoc(doc(db,"users",cu.uid),updates);
+    const snap=await getDocs(collection(db,"users"));
+    allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+    myData=allUsers.find(u=>u.id===cu.uid);
+    showEditProfile=false;render();
+  }catch(e){alert("Error: "+e.message);if(btn){btn.disabled=false;btn.textContent="💾 Save";}}
+};
+
+// ── CHAT ROOM ─────────────────────────────────────────────────────────
+window.goRoom=roomId=>{pushScreen("chatRoom",roomId);};
+window.startDM=async uid=>{
+  let room=rooms.find(r=>r.type==="dm"&&r.members?.includes(uid)&&r.members?.includes(cu.uid));
+  if(!room){const ref=await addDoc(collection(db,"rooms"),{type:"dm",members:[cu.uid,uid],createdAt:serverTimestamp()});room={id:ref.id,type:"dm",members:[cu.uid,uid]};rooms.push(room);}
+  pushScreen("chatRoom",room.id);
+};
+
+function renderChatRoom(roomId){
+  const r=rooms.find(x=>x.id===roomId)||{id:roomId,members:[cu.uid],type:"dm"};
+  const oid=r.type==="dm"?r.members?.find(m=>m!==cu.uid):null;
+  const other=oid?getUser(oid):{};
+  const rUname=r.type==="group"?r.name:`@${other.username||other.name||"user"}`;
+  root.innerHTML=`
+    <div class="app">
+      <div class="room-hdr">
+        <button class="back-icon-btn" onclick="handleBack()">←</button>
+        <div class="room-av" onclick="${oid?`goProfile('${oid}')`:""}">${other.photoURL?`<img src="${other.photoURL}"/>`:r.type==="group"?"👥":other.emoji||"👤"}</div>
+        <div style="flex:1;cursor:pointer" onclick="${oid?`goProfile('${oid}')`:""}" >
+          <div class="room-uname">${rUname}</div>
+          <div class="room-status">🟢 Online</div>
+        </div>
+      </div>
+      <div class="messages" id="msgList"><div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Chat shuru karo! 👋</div></div>
+      <div id="msgPhotoPrev"></div>
+      <div class="msg-input-area">
+        <input type="file" id="msgPhotoFile" accept="image/*" style="display:none" onchange="handleMsgPhoto(event)"/>
+        <button class="attach-btn" onclick="document.getElementById('msgPhotoFile').click()">📎</button>
+        <textarea class="msg-input" id="msgInput" placeholder="Message likho..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMsg('${roomId}')">🚀</button>
+      </div>
+    </div>`;
+  listenMsgs(roomId);
+}
+
+function listenMsgs(roomId){
+  if(msgUnsubs[roomId])msgUnsubs[roomId]();
+  const q=query(collection(db,"rooms",roomId,"messages"),orderBy("createdAt"));
+  msgUnsubs[roomId]=onSnapshot(q,snap=>{
+    const list=document.getElementById("msgList");if(!list)return;
+    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    const r=rooms.find(x=>x.id===roomId)||{type:"dm"};
+    if(!msgs.length){list.innerHTML=`<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Chat shuru karo! 👋</div>`;return;}
+    list.innerHTML=msgs.map(m=>{
+      const isMe=m.uid===cu.uid;
+      const sender=getUser(m.uid);
+      return `<div class="msg-w ${isMe?"me":"other"}">
+        ${!isMe&&r.type==="group"?`<div style="font-size:11px;color:var(--a);font-weight:700;margin-bottom:3px;padding:0 4px">@${sender.username||sender.name}</div>`:""}
+        ${m.img?`<img src="${m.img}" class="msg-img" onclick="openLB('${encodeURIComponent(m.img)}')"/>`:""}
+        ${m.text?`<div class="msg-bbl">${m.text}</div>`:""}
+        <div class="msg-time">${fmtTime(m.createdAt)}</div>
+      </div>`;
+    }).join("");
+    list.scrollTop=list.scrollHeight;
+  });
+}
+
+window.handleMsgPhoto=async e=>{
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>5*1024*1024){alert("Photo 5MB se choti honi chahiye!");return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    pendingMsgPhoto=reader.result;
+    const area=document.getElementById("msgPhotoPrev");
+    if(area)area.innerHTML=`<div style="padding:6px 12px 0;background:var(--s1)"><div style="position:relative;display:inline-block"><img src="${pendingMsgPhoto}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;border:2px solid var(--a)"/><button onclick="removeMsgPhoto()" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:11px;cursor:pointer">×</button></div></div>`;
+  };
+  reader.readAsDataURL(file);e.target.value="";
+};
+window.removeMsgPhoto=()=>{pendingMsgPhoto=null;const a=document.getElementById("msgPhotoPrev");if(a)a.innerHTML="";};
+window.sendMsg=async roomId=>{
+  const input=document.getElementById("msgInput");
+  const text=input?.value.trim();
+  if(!text&&!pendingMsgPhoto)return;
+  input.value="";input.style.height="auto";
+  const msgData={uid:cu.uid,name:myData?.name||cu.displayName,createdAt:serverTimestamp()};
+  if(text)msgData.text=text;
+  if(pendingMsgPhoto){msgData.img=pendingMsgPhoto;pendingMsgPhoto=null;removeMsgPhoto();}
+  await addDoc(collection(db,"rooms",roomId,"messages"),msgData);
+};
+window.handleKey=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();const roomId=currentScreen.data;if(roomId)sendMsg(roomId);}};
+window.autoResize=el=>{el.style.height="auto";el.style.height=Math.min(el.scrollHeight,100)+"px";};
+
+// ── GROUP ─────────────────────────────────────────────────────────────
+window.openGroupModal=()=>{showNewGroup=true;selGroupUsers.clear();render();};
+function renderGroupModal(){
+  return `<div class="modal-overlay" onclick="closeGroupModal(event)">
+    <div class="modal">
+      <h3>👥 Naya Group</h3>
+      <div class="edit-field"><label>Group Naam</label><input type="text" id="gName" placeholder="Group ka naam..."/></div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:8px;font-weight:700">Members:</div>
+      <div style="max-height:200px;overflow-y:auto;margin-bottom:16px">
+        ${allUsers.filter(u=>u.id!==cu.uid).map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:9px;border-radius:10px">
+          <input type="checkbox" onchange="toggleGroupSel('${u.id}')"/>
+          ${avEl(u,"32px")}
+          <span style="color:var(--t);font-weight:700">@${u.username||u.name}</span>
+        </div>`).join("")}
+      </div>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="closeGroupModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="createGroup()">✅ Banao</button>
+      </div>
+    </div>
+  </div>`;
+}
+window.closeGroupModal=e=>{if(!e||e.target.classList.contains("modal-overlay")){showNewGroup=false;selGroupUsers.clear();render();}};
+window.toggleGroupSel=uid=>{selGroupUsers.has(uid)?selGroupUsers.delete(uid):selGroupUsers.add(uid);};
+window.createGroup=async()=>{
+  const name=document.getElementById("gName")?.value.trim();
+  if(!name){alert("Group naam daalo!");return;}
+  if(!selGroupUsers.size){alert("Kam se kam ek member select karo!");return;}
+  await addDoc(collection(db,"rooms"),{type:"group",name,members:[cu.uid,...Array.from(selGroupUsers)],createdBy:cu.uid,createdAt:serverTimestamp()});
+  selGroupUsers.clear();showNewGroup=false;render();
+};
+
+// ── LIGHTBOX ──────────────────────────────────────────────────────────
+window.openLB=src=>{lightboxSrc=decodeURIComponent(src);render();};
+window.closeLB=()=>{lightboxSrc=null;render();};
+
+// ── BACK HANDLER ──────────────────────────────────────────────────────
+window.handleBack=handleBack;
+
+// ── MISC ──────────────────────────────────────────────────────────────
+window.doLogout=async()=>{
+  if(roomUnsub)roomUnsub();if(postUnsub)postUnsub();
+  navStack=[];currentScreen={screen:"feed",data:null};
+  await signOut(auth);
+};
+
+// ── INIT ──────────────────────────────────────────────────────────────
+async function initApp(){
+  const uSnap=await getDocs(collection(db,"users"));
+  allUsers=uSnap.docs.map(d=>({id:d.id,...d.data()}));
+  myData=allUsers.find(u=>u.id===cu.uid);
+  try{await updateDoc(doc(db,"users",cu.uid),{online:true});}catch(e){}
+
+  if(postUnsub)postUnsub();
+  postUnsub=onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snap=>{
+    posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(currentScreen.screen==="feed")render();
+  });
+
+  if(roomUnsub)roomUnsub();
+  roomUnsub=onSnapshot(query(collection(db,"rooms"),where("members","array-contains",cu.uid)),snap=>{
+    rooms=snap.docs.map(d=>({id:d.id,...d.data()}));
+  });
+
+  render();
+}
+
+// ── AUTO LOGIN (Persistence) ──────────────────────────────────────────
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    cu=user;
+    await initApp();
+  }else{
+    cu=null;myData=null;allUsers=[];posts=[];rooms=[];
+    navStack=[];currentScreen={screen:"feed",data:null};
+    if(roomUnsub){roomUnsub();roomUnsub=null;}
+    if(postUnsub){postUnsub();postUnsub=null;}
+    renderAuth();
+  }
+});
+</script>
+</body>
+</html>
