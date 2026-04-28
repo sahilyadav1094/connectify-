@@ -342,11 +342,16 @@ const uploadMedia = async file => {
   return {url:data.secure_url,type:isVid?"video":"image"};
 };
 
+// Blue tick SVG badge - bilkul Instagram jaisa
+const BLUE_BADGE = `<svg width="14" height="14" viewBox="0 0 22 22" style="display:inline-block;vertical-align:middle;margin-left:3px" xmlns="http://www.w3.org/2000/svg"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.438 1.69-.882.445-.47.749-1.055.878-1.688.13-.633.08-1.29-.144-1.896.587-.274 1.087-.705 1.443-1.245.356-.54.555-1.17.574-1.817zm-9.217 3.97l-3.65-3.648 1.062-1.063 2.588 2.587 4.634-4.637 1.063 1.062z" fill="#1d9bf0"/></svg>`;
+
 const unameDisplay = u => {
   if(!u) return "";
   let n = `@${u.username||u.name}`;
-  if(u.username===ADMIN_USERNAME) return `👑 ${n}`;
-  if(u.blueTick) return `${n} <span class="blue-tick">✓</span>`;
+  // Crown SIRF connectify username ke saath, name ke aage NAHI
+  if(u.username===ADMIN_USERNAME) return `${n} 👑`;
+  // Blue tick badge SVG
+  if(u.blueTick) return `${n}${BLUE_BADGE}`;
   return n;
 };
 
@@ -492,13 +497,14 @@ window.goTab = tab => {
 
 // ── FEED ──────────────────────────────────────────────────────────────
 function renderFeed(){
-  const others=allUsers.filter(u=>u.id!==cu.uid);
+  // Fix: sirf followed users ki stories dikhao
+  const followedUsers = allUsers.filter(u => u.id!==cu.uid && (myData?.following||[]).includes(u.id));
   let html=`<div class="stories-wrap">
     <div class="story-item" onclick="goNewStory()">
       <div class="story-ring mine"><div class="story-av"><div class="add-story-icon">+</div></div></div>
       <div class="story-name">Tumhari</div>
     </div>
-    ${others.slice(0,10).map(u=>`
+    ${followedUsers.slice(0,10).map(u=>`
       <div class="story-item" onclick="viewStory('${u.id}')">
         <div class="story-ring unseen"><div class="story-av">${u.photoURL?`<img src="${u.photoURL}"/>`:`<span style="font-size:22px">${u.emoji||"👤"}</span>`}</div></div>
         <div class="story-name">${u.username||u.name}</div>
@@ -542,7 +548,19 @@ function renderFeed(){
 // ── SEARCH ────────────────────────────────────────────────────────────
 function renderSearch(){
   const filtered=allUsers.filter(u=>u.id!==cu.uid&&(!searchQ||(u.username||"").includes(searchQ.toLowerCase())||(u.name||"").toLowerCase().includes(searchQ.toLowerCase())));
-  let html=`<div class="search-bar"><input class="search-input" placeholder="🔍 @username se search karo..." value="${searchQ}" oninput="updateSearch(this.value)"/></div>`;
+  // Fix: input ke baad focus mat hatao - sirf results update karo
+  let html=`<div class="search-bar">
+    <input class="search-input" id="searchInp" placeholder="🔍 @username se search karo..." 
+      value="${searchQ}" 
+      oninput="updateSearch(this.value)"
+      onfocus="this.setSelectionRange(this.value.length,this.value.length)"
+      inputmode="search"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+    />
+  </div>
+  <div id="searchResults">`;
   if(!filtered.length)html+=`<div class="empty-state"><div class="e-icon">👥</div><div class="e-text">Koi nahi mila!</div></div>`;
   filtered.forEach(u=>{
     const f=isFollowing(u.id);
@@ -556,9 +574,34 @@ function renderSearch(){
       <button class="mini-follow-btn ${f?"btn-following":"btn-follow"}" onclick="event.stopPropagation();toggleFollow('${u.id}')">${f?"✓ Following":"+ Follow"}</button>
     </div>`;
   });
+  html+=`</div>`;
   return html;
 }
-window.updateSearch=q=>{searchQ=q;if(document.getElementById("mainScreen"))document.getElementById("mainScreen").innerHTML=renderSearch();};
+
+// Search update - sirf results update karo, keyboard band mat ho
+window.updateSearch=q=>{
+  searchQ=q;
+  const resultsDiv=document.getElementById("searchResults");
+  if(!resultsDiv) return;
+  const filtered=allUsers.filter(u=>u.id!==cu.uid&&(!q||(u.username||"").includes(q.toLowerCase())||(u.name||"").toLowerCase().includes(q.toLowerCase())));
+  let html="";
+  if(!filtered.length) html=`<div class="empty-state"><div class="e-icon">👥</div><div class="e-text">Koi nahi mila!</div></div>`;
+  filtered.forEach(u=>{
+    const f=isFollowing(u.id);
+    html+=`<div class="people-item" onclick="goProfile('${u.id}')">
+      ${avEl(u)}
+      <div style="flex:1">
+        <div class="people-uname">${unameDisplay(u)}</div>
+        <div class="people-name">${u.name}</div>
+        <div class="people-fol">${(u.followers||[]).length} followers</div>
+      </div>
+      <button class="mini-follow-btn ${f?"btn-following":"btn-follow"}" onclick="event.stopPropagation();toggleFollow('${u.id}')">${f?"✓ Following":"+ Follow"}</button>
+    </div>`;
+  });
+  resultsDiv.innerHTML=html;
+  // Input focus wapas do
+  document.getElementById("searchInp")?.focus();
+};
 
 // ── MESSAGES LIST ─────────────────────────────────────────────────────
 function renderMsgList(){
@@ -587,8 +630,6 @@ function renderMyProfile(){
     <div class="prof-body">
       <div class="prof-name-row">
         <div class="prof-name">${myData?.name||"User"}</div>
-        ${myData?.username===ADMIN_USERNAME?`<span style="font-size:16px">👑</span>`:""}
-        ${myData?.blueTick&&myData?.username!==ADMIN_USERNAME?`<span class="blue-tick" style="font-size:16px">✓</span>`:""}
       </div>
       <div class="prof-uname-tag">@${myData?.username||"username"}</div>
       ${myData?.bio?`<div class="prof-bio">${myData.bio}</div>`:""}
@@ -664,8 +705,6 @@ function renderUserProfile(uid){
         <div class="prof-body">
           <div class="prof-name-row">
             <div class="prof-name">${u.name}</div>
-            ${u.username===ADMIN_USERNAME?`<span style="font-size:16px">👑</span>`:""}
-            ${u.blueTick&&u.username!==ADMIN_USERNAME?`<span class="blue-tick" style="font-size:16px">✓</span>`:""}
           </div>
           <div class="prof-uname-tag">@${u.username||u.name}</div>
           ${u.bio?`<div class="prof-bio">${u.bio}</div>`:""}
